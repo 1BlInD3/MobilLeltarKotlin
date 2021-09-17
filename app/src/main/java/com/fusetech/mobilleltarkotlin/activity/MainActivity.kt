@@ -7,8 +7,11 @@ import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.fragments.*
 import com.fusetech.mobilleltarkotlin.showMe
 import com.honeywell.aidc.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(),BarcodeReader.BarcodeListener,LoginFragment.WithMainActivity,MenuFragment.WithMainActivity,CikkPolcFragment.WithMainActivity{
+    private val TAG = "MainActivity"
     private var manager: AidcManager? = null
     private var barcodeReader: BarcodeReader? = null
     private var loginFragment : LoginFragment? = null

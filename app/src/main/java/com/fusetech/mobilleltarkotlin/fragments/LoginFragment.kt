@@ -9,30 +9,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.fusetech.mobilleltarkotlin.R
-import com.fusetech.mobilleltarkotlin.activity.MainActivity
 import com.fusetech.mobilleltarkotlin.databinding.FragmentLoginBinding
 import com.fusetech.mobilleltarkotlin.showMe
 import com.fusetech.mobilleltarkotlin.ui.interfaces.LoginListener
 import com.fusetech.mobilleltarkotlin.ui.viewModels.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment(), LoginListener {
-
+    val viewModel: LoginViewModel by viewModels()
     private lateinit var withMainActivity: WithMainActivity
 
     interface WithMainActivity{
         fun onExit()
         fun loadMenuFragment(hasRight: Boolean)
     }
-    var mainActivity : MainActivity? = null
-    private lateinit var viewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = activity?.run {
+        /*viewModel = activity?.run {
             ViewModelProvider(this)[LoginViewModel::class.java]
-        }?: throw Exception("Invalid activity")
+        }?: throw Exception("Invalid activity")*/
 
     }
     override fun onCreateView(
@@ -41,7 +40,6 @@ class LoginFragment : Fragment(), LoginListener {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login,container,false)
         binding.viewModel = viewModel
-        mainActivity = activity as MainActivity
         viewModel.loginListener = this
         binding.loginProgress.visibility = View.GONE
         return binding.root
