@@ -8,8 +8,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+
 @HiltViewModel
 class CikkPolcViewModel
+@Inject
     constructor(
         private val sql: Sql
     ): ViewModel() {

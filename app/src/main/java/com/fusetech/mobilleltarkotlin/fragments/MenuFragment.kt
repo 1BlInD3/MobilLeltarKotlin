@@ -56,7 +56,7 @@ class MenuFragment : Fragment(), MenuLstener {
     }
 
     override fun loadLeltar() {
-        showMe("Leltár",requireContext())
+        //showMe("Leltár",requireContext())
         withMainActivity.loadLeltar()
     }
     override fun loadLekerdezes() {

@@ -10,20 +10,26 @@ import com.honeywell.aidc.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(),BarcodeReader.BarcodeListener,LoginFragment.WithMainActivity,MenuFragment.WithMainActivity,CikkPolcFragment.WithMainActivity{
+class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
+    LoginFragment.WithMainActivity, MenuFragment.WithMainActivity,
+    CikkPolcFragment.WithMainActivity{
     private val TAG = "MainActivity"
     private var manager: AidcManager? = null
     private var barcodeReader: BarcodeReader? = null
-    private var loginFragment : LoginFragment? = null
+    private var loginFragment: LoginFragment? = null
     private var menuFragment: MenuFragment? = null
     private var cikkPolcFragment: CikkPolcFragment? = null
     private var barcodeData: String = ""
-    companion object{
-        const val read_connect = "jdbc:jtds:sqlserver://10.0.0.11;databaseName=Fusetech;user=scala_read;password=scala_read;loginTimeout=10"
+    private var tabbedFragment: TabbedFragment? = null
+
+    companion object {
+        const val read_connect =
+            "jdbc:jtds:sqlserver://10.0.0.11;databaseName=Fusetech;user=scala_read;password=scala_read;loginTimeout=10"
         var containerCode: String = ""
         var cikkCode: String = ""
         val bundle = Bundle()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -60,15 +66,19 @@ class MainActivity : AppCompatActivity(),BarcodeReader.BarcodeListener,LoginFrag
     }
 
     override fun onBarcodeEvent(p0: BarcodeReadEvent?) {
-       runOnUiThread{
-           barcodeData = p0?.barcodeData!!
-           if(getFragment("LOGIN")){
-               loginFragment?.setCode(barcodeData)
-           }
-           if(getFragment("CIKKPOLC")){
-               cikkPolcFragment?.setCode(barcodeData)
-           }
-       }
+        runOnUiThread {
+            barcodeData = p0?.barcodeData!!
+            if (getFragment("LOGIN")) {
+                loginFragment?.setCode(barcodeData)
+            }
+            if (getFragment("CIKKPOLC")) {
+                cikkPolcFragment?.setCode(barcodeData)
+            }
+            if (getFragment("f0")) {
+                val fragment = supportFragmentManager.findFragmentByTag("f0")
+                (fragment as LeltarFragment).setCikk(barcodeData)
+            }
+        }
     }
 
     override fun onFailureEvent(p0: BarcodeFailureEvent?) {
@@ -76,6 +86,7 @@ class MainActivity : AppCompatActivity(),BarcodeReader.BarcodeListener,LoginFrag
             Toast.makeText(this@MainActivity, "Nem sikerült leolvasni", Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun getFragment(fragmentName: String): Boolean {
         val myFrag = supportFragmentManager.findFragmentByTag(fragmentName)
         if (myFrag != null && myFrag.isVisible) {
@@ -83,40 +94,56 @@ class MainActivity : AppCompatActivity(),BarcodeReader.BarcodeListener,LoginFrag
         }
         return false
     }
-    private fun getLoginFragment(){
+
+    private fun getLoginFragment() {
         loginFragment = LoginFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.container,loginFragment!!,"LOGIN").commit()
+        supportFragmentManager.beginTransaction().replace(R.id.container, loginFragment!!, "LOGIN")
+            .commit()
     }
+
     override fun onExit() {
         finishAndRemoveTask()
     }
+
     override fun loadMenuFragment(hasRight: Boolean) {
         menuFragment = MenuFragment.newInstance(hasRight)
-        supportFragmentManager.beginTransaction().replace(R.id.container,menuFragment!!,"MENU").commit()
+        supportFragmentManager.beginTransaction().replace(R.id.container, menuFragment!!, "MENU")
+            .commit()
     }
+
     override fun loadLeltar() {
-        TODO("Not yet implemented")
+        tabbedFragment = TabbedFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, tabbedFragment!!, "TABBED").commit()
     }
+
     override fun loadLekerdezes() {
         cikkPolcFragment = CikkPolcFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.container,cikkPolcFragment!!,"CIKKPOLC").commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, cikkPolcFragment!!, "CIKKPOLC").commit()
     }
+
     override fun loadKilepes() {
         finishAndRemoveTask()
     }
+
     override fun sendBundle(polcList: String) {
         val polcResult = PolcResultFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.sub_container,polcResult,"POLCITEMS").commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.sub_container, polcResult, "POLCITEMS").commit()
         containerCode = polcList
     }
+
     override fun sendCikk(cikk: String) {
         val cikkResult = CikkResultFragment()
         cikkResult.arguments = bundle
-        supportFragmentManager.beginTransaction().replace(R.id.sub_container,cikkResult,"CIKKITEMS").commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.sub_container, cikkResult, "CIKKITEMS").commit()
         cikkCode = cikk
     }
+
     override fun removeFragment() {
-        when{
+        when {
             getFragment("CIKKITEMS") -> {
                 removeFragment("CIKKITEMS")
             }
@@ -128,6 +155,7 @@ class MainActivity : AppCompatActivity(),BarcodeReader.BarcodeListener,LoginFrag
             }
         }
     }
+
     private fun removeFragment(fragment1: String) {
         val fragment = supportFragmentManager.findFragmentByTag(fragment1)
         if (fragment != null) supportFragmentManager.beginTransaction().remove(fragment)

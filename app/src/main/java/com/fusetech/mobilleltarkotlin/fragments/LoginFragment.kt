@@ -27,13 +27,7 @@ class LoginFragment : Fragment(), LoginListener {
         fun loadMenuFragment(hasRight: Boolean)
     }
     private lateinit var binding: FragmentLoginBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        /*viewModel = activity?.run {
-            ViewModelProvider(this)[LoginViewModel::class.java]
-        }?: throw Exception("Invalid activity")*/
 
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
