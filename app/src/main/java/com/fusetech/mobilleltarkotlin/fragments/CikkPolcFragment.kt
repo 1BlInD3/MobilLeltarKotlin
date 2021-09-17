@@ -7,33 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.databinding.FragmentCikkPolcBinding
 import com.fusetech.mobilleltarkotlin.showMe
 import com.fusetech.mobilleltarkotlin.ui.interfaces.CikkPolcListener
 import com.fusetech.mobilleltarkotlin.ui.viewModels.CikkPolcViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class CikkPolcFragment : Fragment(),CikkPolcListener {
 
-    private lateinit var viewModel: CikkPolcViewModel
+    private val viewModel: CikkPolcViewModel by viewModels()
     private lateinit var binding: FragmentCikkPolcBinding
     private lateinit var withMainActivity: WithMainActivity
     interface WithMainActivity{
         fun sendBundle(polcList: String)
         fun sendCikk(cikk: String)
         fun removeFragment()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = activity?.run {
-            ViewModelProvider(this)[CikkPolcViewModel::class.java]
-        }?:throw Exception("Invalid activity")
     }
 
     override fun onCreateView(
@@ -83,7 +77,6 @@ class CikkPolcFragment : Fragment(),CikkPolcListener {
             withMainActivity.removeFragment()
         }
     }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         withMainActivity = if(context is WithMainActivity){

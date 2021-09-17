@@ -7,27 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.bundle
 import com.fusetech.mobilleltarkotlin.adapters.CikkItemAdapter
 import com.fusetech.mobilleltarkotlin.databinding.FragmentCikkResultBinding
 import com.fusetech.mobilleltarkotlin.ui.viewModels.CikkResultViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-
+@AndroidEntryPoint
 class CikkResultFragment : Fragment() {
-    private lateinit var viewModel: CikkResultViewModel
+    private val viewModel: CikkResultViewModel by viewModels()
     private lateinit var binding: FragmentCikkResultBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = activity?.run {
-            ViewModelProvider(this)[CikkResultViewModel::class.java]
-        }?:throw Exception("Invalid activity")
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

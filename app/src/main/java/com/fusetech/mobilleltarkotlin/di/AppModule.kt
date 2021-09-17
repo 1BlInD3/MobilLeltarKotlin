@@ -22,12 +22,6 @@ object AppModule{
 
     @Singleton
     @Provides
-    fun provideRandomString(): String{
-        return "ABC"
-    }
-
-    @Singleton
-    @Provides
     fun getSql(): Sql{
         return Sql()
     }
