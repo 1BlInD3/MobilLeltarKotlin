@@ -2,6 +2,7 @@ package com.fusetech.mobilleltarkotlin.ui.viewModels
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.dolgKod
 import com.fusetech.mobilleltarkotlin.repositories.Sql
 import com.fusetech.mobilleltarkotlin.ui.interfaces.LoginListener
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,7 @@ class LoginViewModel
         CoroutineScope(IO).launch {
             val right = sql.userLogin(code)
             if(right){
+                dolgKod = code
                 CoroutineScope(Main).launch {
                     loginListener?.onRequestSuccess()
                     loginListener?.onProgressOff()

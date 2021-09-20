@@ -39,6 +39,7 @@ class CikkPolcFragment : Fragment(),CikkPolcListener {
         viewModel.cikkPolcListener = this
         binding.binOrItem.requestFocus()
         binding.progressBar.visibility = View.GONE
+        binding.subContainer.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
         return binding.root
     }
 

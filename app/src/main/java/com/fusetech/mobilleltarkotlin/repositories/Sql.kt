@@ -1,16 +1,20 @@
 package com.fusetech.mobilleltarkotlin.repositories
 
-import android.os.Bundle
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.fusetech.mobilleltarkotlin.activity.MainActivity
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.bundle
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.dolgKod
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakhelyInfo
 import com.fusetech.mobilleltarkotlin.dataItems.CikkItems
 import com.fusetech.mobilleltarkotlin.dataItems.PolcItems
+import com.fusetech.mobilleltarkotlin.dataItems.RaktarAdat
 import java.sql.Connection
 import java.sql.DriverManager
-import java.sql.PreparedStatement
-import java.sql.ResultSet
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 private const val TAG = "Sql"
 
@@ -31,7 +35,7 @@ class Sql {
         return hasRight
     }
 
-    fun cikkPolcQuery(code: String) {
+   /* fun cikkPolcQuery(code: String) {
         val connection: Connection
         val bundle = Bundle()
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
@@ -135,7 +139,7 @@ class Sql {
              writeLog(e.stackTraceToString(), "arg1 $code")*/
         }
     }
-
+*/
     fun isPolc(code: String): Boolean {
         var polc = false
         val connection: Connection
@@ -147,12 +151,96 @@ class Sql {
             statement.setString(1, code)
             val resultSet = statement.executeQuery()
             polc = resultSet.next()
+            bundle.putString("RAK",resultSet.getString("InternalName"))
         } catch (e: Exception) {
             Log.d("sql", "isPolc: ")
         }
         return polc
     }
-
+    fun isPolcOpen(code: String): Boolean{
+        val rakhelyList : ArrayList<RaktarAdat> = ArrayList()
+        var polc: Boolean = false
+        val connection : Connection
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try {
+            connection = DriverManager.getConnection(MainActivity.read_connect)
+            val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[LeltarRakhEll] WHERE RaktHely = ? AND Statusz = 1")
+            statement.setString(1,code)
+            val resultSet = statement.executeQuery()
+            if(!resultSet.next()){
+                polc = false
+            }else{
+                polc = true
+                val statement2 = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
+                statement2.setString(1,code)
+                val resultSet2 = statement2.executeQuery()
+                if(!resultSet2.next()){
+                    rakhelyList.clear()
+                    Log.d(TAG, "isPolcOpen: Üres a polc")
+                }else{
+                    rakhelyList.clear()
+                    do {
+                        rakhelyList.add(RaktarAdat(resultSet2.getString("Cikkszam"),resultSet2.getString("Description1"),resultSet2.getString("Description2"),resultSet2.getDouble("Mennyiseg"),resultSet2.getString("Megjegyzes"),resultSet2.getInt("Bizszam")))
+                    }while (resultSet2.next())
+                    rakhelyInfo.postValue(rakhelyList)
+                }
+            }
+        }catch (e: Exception){
+            Log.d(TAG, "isPolcOpen: $e")
+        }
+        return polc
+    }
+    fun isPolcEmpty(code:String): Boolean{
+        var empty = false
+        val connection: Connection
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try{
+            connection = DriverManager.getConnection(MainActivity.read_connect)
+            val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[LeltarRakhEll] WHERE RaktHely = ? AND Statusz = 0")
+            statement.setString(1,code)
+            val resultSet = statement.executeQuery()
+            empty = resultSet.next()
+        }catch (e: Exception){
+            Log.d(TAG, "isPolcEmpty: $e")
+        }
+        return empty
+    }
+    fun isPolcClosed(code: String): Boolean{
+        var closed = false
+        val connection: Connection
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try{
+            connection = DriverManager.getConnection(MainActivity.read_connect)
+            val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[LeltarRakhEll] WHERE RaktHely = ? AND Statusz = 2")
+            statement.setString(1,code)
+            val resultSet = statement.executeQuery()
+            closed = resultSet.next()
+        }catch (e: Exception){
+            Log.d(TAG, "isPolcEmpty: $e")
+        }
+        return closed
+    }
+    @SuppressLint("SimpleDateFormat")
+    fun uploadPolc(code: String): Boolean{
+        var upload = false
+        val connection: Connection
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try{
+            val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
+            connection = DriverManager.getConnection(MainActivity.write_connect)
+            val statement = connection.prepareStatement("INSERT INTO [leltar].[dbo].[LeltarRakhEll] (RaktHely,DolgozoKezd,Statusz,KezdDatum) VALUES(?,?,?,?)")
+            statement.setString(1,code)
+            statement.setString(2, dolgKod)
+            statement.setInt(3,1)
+            statement.setString(4,date)
+            statement.executeUpdate()
+            upload = true
+        }catch (e: Exception){
+            Log.d(TAG, "uploadPolc: $e")
+            upload = false
+        }
+        return upload
+    }
     fun polcResultQuery(code: String): MutableLiveData<ArrayList<PolcItems>> {
         val myList = MutableLiveData<ArrayList<PolcItems>>()
         val polc: ArrayList<PolcItems> = ArrayList()
@@ -211,7 +299,7 @@ class Sql {
 
     fun cikkResultQuery(code: String): MutableLiveData<ArrayList<CikkItems>> {
         val connection: Connection
-        var cikkList = MutableLiveData<ArrayList<CikkItems>>()
+        val cikkList = MutableLiveData<ArrayList<CikkItems>>()
         val cikkItemList: ArrayList<CikkItems> = ArrayList()
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {

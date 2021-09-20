@@ -3,7 +3,9 @@ package com.fusetech.mobilleltarkotlin.activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import com.fusetech.mobilleltarkotlin.R
+import com.fusetech.mobilleltarkotlin.dataItems.RaktarAdat
 import com.fusetech.mobilleltarkotlin.fragments.*
 import com.fusetech.mobilleltarkotlin.showMe
 import com.honeywell.aidc.*
@@ -21,13 +23,26 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     private var cikkPolcFragment: CikkPolcFragment? = null
     private var barcodeData: String = ""
     private var tabbedFragment: TabbedFragment? = null
-
+/*
+* Ahogy felvettem a ratárra egy cikket akkor beír a LeltarRakhEll-be 1es státuszt kap. A tételt felveszi a Leltaradat táblába 1es státusszal (RaktHely,DolgozoKezd,Statusz,KezdDatum)
+* Az új rakhely lenoymása után megkérdezi lezárom-e, ha igen akkor a LeltarRakhEll 2es státusz (DolgozoBef,BefDatum, Statusz)
+* Ha a cikk üres akkor 0 státsuz a fejbe
+*
+*
+*
+*
+*
+* */
     companion object {
         const val read_connect =
             "jdbc:jtds:sqlserver://10.0.0.11;databaseName=Fusetech;user=scala_read;password=scala_read;loginTimeout=10"
+        const val write_connect =
+        "jdbc:jtds:sqlserver://10.0.0.11;databaseName=leltar;user=Raktarrendszer;password=PaNNoN0132;loginTimeout=10"
         var containerCode: String = ""
         var cikkCode: String = ""
         val bundle = Bundle()
+        lateinit var rakhelyInfo: MutableLiveData<ArrayList<RaktarAdat>>
+        var dolgKod = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
