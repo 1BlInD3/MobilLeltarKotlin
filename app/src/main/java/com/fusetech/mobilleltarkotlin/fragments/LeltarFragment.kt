@@ -1,6 +1,8 @@
 package com.fusetech.mobilleltarkotlin.fragments
 
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import com.fusetech.mobilleltarkotlin.showMe
 import com.fusetech.mobilleltarkotlin.ui.interfaces.LeltarListener
 import com.fusetech.mobilleltarkotlin.ui.viewModels.LeltarViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class LeltarFragment : Fragment(),LeltarListener {
@@ -29,6 +32,9 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.rakhelyText.isFocusable = true
         binding.rakhelyText.isFocusableInTouchMode = true
         binding.rakhelyText.requestFocus()
+        binding.cikkszamHeader.filters = arrayOf<InputFilter>(
+            DecimalDigitsInputFilter(9,2)
+        )
         return binding.root
     }
     fun setCikk(code: String){
@@ -99,6 +105,32 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.rakhelyText.isFocusable = true
         binding.rakhelyText.isFocusableInTouchMode = true
         binding.rakhelyText.requestFocus()
+    }
+
+    override fun mennyisegListener(quantity: Double) {
+        binding.cikkszamHeader.setText(quantity.toString().trim())
+        binding.megjegyzesText.isFocusable = true
+        binding.megjegyzesText.isFocusableInTouchMode = true
+        binding.megjegyzesText.requestFocus()
+    }
+
+    class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :
+        InputFilter {
+        var mPattern: Pattern =
+            Pattern.compile("[0-9]{0," + (digitsBeforeZero - 1) + "}+((\\.[0-9]{0," + (digitsAfterZero - 1) + "})?)||(\\.)?")
+
+        override fun filter(
+            source: CharSequence,
+            start: Int,
+            end: Int,
+            dest: Spanned,
+            dstart: Int,
+            dend: Int
+        ): CharSequence? {
+            val matcher = mPattern.matcher(dest)
+            return if (!matcher.matches()) "" else null
+        }
+
     }
 
 }

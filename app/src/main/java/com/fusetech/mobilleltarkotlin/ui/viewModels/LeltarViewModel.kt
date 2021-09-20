@@ -30,6 +30,9 @@ constructor(
     fun buttonClick(view: View){
         leltarListener?.clearAll()
     }
+    fun mennyisegClick(view: View){
+        leltarListener?.mennyisegListener(mennyiseg.toDouble())
+    }
     fun cikkTextSet(code: String){
         bundle.clear()
         leltarListener?.setProgressOn()

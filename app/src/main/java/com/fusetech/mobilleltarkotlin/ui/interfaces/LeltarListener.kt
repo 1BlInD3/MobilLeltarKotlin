@@ -9,4 +9,5 @@ interface LeltarListener {
     fun raktarAdat(terulet: String)
     fun errorCode(code: String)
     fun clearAll()
+    fun mennyisegListener(quantity: Double)
 }
