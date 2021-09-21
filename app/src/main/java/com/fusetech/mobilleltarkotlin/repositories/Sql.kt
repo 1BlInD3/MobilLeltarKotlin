@@ -151,7 +151,10 @@ class Sql {
             statement.setString(1, code)
             val resultSet = statement.executeQuery()
             polc = resultSet.next()
-            bundle.putString("RAK",resultSet.getString("InternalName"))
+            if(polc){
+                bundle.putString("RAKKOD",resultSet.getString("WarehouseID"))
+                bundle.putString("RAK",resultSet.getString("InternalName"))
+            }
         } catch (e: Exception) {
             Log.d("sql", "isPolc: ")
         }
@@ -182,7 +185,8 @@ class Sql {
                     do {
                         rakhelyList.add(RaktarAdat(resultSet2.getString("Cikkszam"),resultSet2.getString("Description1"),resultSet2.getString("Description2"),resultSet2.getDouble("Mennyiseg"),resultSet2.getString("Megjegyzes"),resultSet2.getInt("Bizszam")))
                     }while (resultSet2.next())
-                    rakhelyInfo.postValue(rakhelyList)
+                   // rakhelyInfo.postValue(rakhelyList)
+                   rakhelyInfo = rakhelyList
                 }
             }
         }catch (e: Exception){
@@ -327,5 +331,29 @@ class Sql {
             Log.d(TAG, "cikkResultQuery: $e")
         }
         return cikkList
+    }
+    fun insertData(cikk: String, mennyiseg: Double, dolgKod: String, raktar: String, rakhely: String, megjegyzes: String?): Boolean{
+        val connection: Connection
+        var insert = false
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try {
+            connection = DriverManager.getConnection(MainActivity.write_connect)
+            val statement = connection.prepareStatement("INSERT INTO [leltar].[dbo].[Leltaradat] (Cikkszam,Mennyiseg,Dolgozo,Raktar,RaktHely,Megjegyzes,Nyomtatva,Status,EllStatus) VALUES (?,?,?,?,?,?,?,?,?)")
+            statement.setString(1,cikk)
+            statement.setDouble(2,mennyiseg)
+            statement.setString(3,dolgKod)
+            statement.setString(4,raktar)
+            statement.setString(5,rakhely)
+            statement.setString(6,megjegyzes)
+            statement.setString(7,"n")
+            statement.setInt(8,1)
+            statement.setInt(9,0)
+            statement.executeUpdate()
+            insert = true
+        }catch (e: Exception){
+            insert = false
+            Log.d(TAG, "insertData: $e")
+        }
+        return insert
     }
 }

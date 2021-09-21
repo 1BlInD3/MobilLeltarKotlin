@@ -3,7 +3,6 @@ package com.fusetech.mobilleltarkotlin.activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.dataItems.RaktarAdat
 import com.fusetech.mobilleltarkotlin.fragments.*
@@ -15,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     LoginFragment.WithMainActivity, MenuFragment.WithMainActivity,
     CikkPolcFragment.WithMainActivity{
-    private val TAG = "MainActivity"
+    //private val TAG = "MainActivity"
     private var manager: AidcManager? = null
     private var barcodeReader: BarcodeReader? = null
     private var loginFragment: LoginFragment? = null
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         var containerCode: String = ""
         var cikkCode: String = ""
         val bundle = Bundle()
-        lateinit var rakhelyInfo: MutableLiveData<ArrayList<RaktarAdat>>
+        lateinit var rakhelyInfo: ArrayList<RaktarAdat>//MutableLiveData<ArrayList<RaktarAdat>>
         var dolgKod = ""
     }
 
@@ -176,4 +175,5 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         if (fragment != null) supportFragmentManager.beginTransaction().remove(fragment)
             .commit()
     }
+
 }

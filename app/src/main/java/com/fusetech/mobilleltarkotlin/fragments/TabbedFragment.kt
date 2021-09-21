@@ -42,11 +42,11 @@ class TabbedFragment : Fragment() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                Log.d(TAG, "onTabUnselected: ")
+                Log.d(TAG, "onTabUnselected: ${tab?.position!!}")
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                Log.d(TAG, "onTabReselected: ")
+                Log.d(TAG, "onTabReselected: ${tab?.position!!}")
             }
 
         })

@@ -3,6 +3,7 @@ package com.fusetech.mobilleltarkotlin.ui.viewModels
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.bundle
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.dolgKod
 import com.fusetech.mobilleltarkotlin.repositories.Sql
 import com.fusetech.mobilleltarkotlin.ui.interfaces.LeltarListener
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,13 +20,16 @@ constructor(
     val sql: Sql
 ) : ViewModel() {
     var leltarListener: LeltarListener? = null
-    var rakhely: String? = ""
+    var rakhely: String = ""
     var cikkszam = ""
     var mennyiseg = ""
     var desc1 = ""
     var desc2 = ""
     var unit = ""
     var internalName = ""
+    var megjegyzes: String? = ""
+    var warehouseID = ""
+
 
     fun buttonClick(view: View){
         leltarListener?.clearAll()
@@ -33,11 +37,26 @@ constructor(
     fun mennyisegClick(view: View){
         leltarListener?.mennyisegListener(mennyiseg.toDouble())
     }
+    fun insertLeltarData(view: View){
+        CoroutineScope(IO).launch {
+            if(sql.insertData(cikkszam,mennyiseg.toDouble(),dolgKod,warehouseID,rakhely,megjegyzes)){
+                CoroutineScope(Main).launch {
+                    leltarListener?.errorCode("Sikeres feltöltés")
+                    leltarListener?.clearAll()
+                }
+            }else{
+                CoroutineScope(Main).launch {
+                    leltarListener?.errorCode("Nem sikerült az elemet felvenni")
+                }
+            }
+        }
+    }
     fun cikkTextSet(code: String){
         bundle.clear()
         leltarListener?.setProgressOn()
         CoroutineScope(IO).launch {
             if(sql.isPolc(code)){
+                warehouseID = bundle.getString("RAKKOD")!!
                 if(sql.isPolcOpen(code)){
                     CoroutineScope(Main).launch {
                         leltarListener?.setRaktarText(code)

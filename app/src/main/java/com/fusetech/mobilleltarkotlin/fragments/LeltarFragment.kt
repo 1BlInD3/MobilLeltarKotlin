@@ -35,6 +35,7 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.cikkszamHeader.filters = arrayOf<InputFilter>(
             DecimalDigitsInputFilter(9,2)
         )
+        focusDefault()
         return binding.root
     }
     fun setCikk(code: String){
@@ -105,10 +106,15 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.rakhelyText.isFocusable = true
         binding.rakhelyText.isFocusableInTouchMode = true
         binding.rakhelyText.requestFocus()
+        binding.megjegyzesText.isFocusable = false
+        binding.megjegyzesText.isFocusable = true
+
     }
 
     override fun mennyisegListener(quantity: Double) {
         binding.cikkszamHeader.setText(quantity.toString().trim())
+        binding.cikkszamHeader.isFocusable = false
+        binding.cikkszamHeader.isFocusableInTouchMode = false
         binding.megjegyzesText.isFocusable = true
         binding.megjegyzesText.isFocusableInTouchMode = true
         binding.megjegyzesText.requestFocus()
@@ -131,6 +137,17 @@ class LeltarFragment : Fragment(),LeltarListener {
             return if (!matcher.matches()) "" else null
         }
 
+    }
+    private fun focusDefault(){
+        binding.rakhelyText.isFocusable = true
+        binding.rakhelyText.isFocusableInTouchMode = true
+        binding.rakhelyText.requestFocus()
+        binding.cikkszamText.isFocusable = false
+        binding.cikkszamText.isFocusableInTouchMode = false
+        binding.cikkszamHeader.isFocusable = false
+        binding.cikkszamHeader.isFocusableInTouchMode = false
+        binding.megjegyzesText.isFocusable = false
+        binding.megjegyzesText.isFocusableInTouchMode = false
     }
 
 }

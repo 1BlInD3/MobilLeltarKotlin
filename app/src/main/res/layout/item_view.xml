@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_selector">
+
+    <TextView
+        android:id="@+id/cikkszamHeader"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:maxLines="1"
+        android:text="Cikkszám"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/desc1Header"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:maxLines="1"
+        android:text="Megjegyzés1"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/cikkszamHeader"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/desc2Header"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:maxLines="1"
+        android:text="Megjegyzes2"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/desc1Header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/mennyisegHeader"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:maxLines="1"
+        android:text="Mennyiség"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/desc2Header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/megjegyzesHeader"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:maxLines="1"
+        android:text="Megjegyzés"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/mennyisegHeader"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/bizszamTxt"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/megjegyzesHeader"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
