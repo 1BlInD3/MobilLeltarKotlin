@@ -19,7 +19,7 @@ class LeltarViewModel
 @Inject
 constructor(
     val sql: Sql
-) : ViewModel(),UpdateInterface {
+) : ViewModel(), UpdateInterface {
     var leltarListener: LeltarListener? = null
     var rakhely: String = ""
     var cikkszam = ""
@@ -32,27 +32,33 @@ constructor(
     var warehouseID = ""
     var updateListener: UpdateInterface = this
 
-    fun buttonClick(view: View){
-        if(rakhely.isNotEmpty()){
-            leltarListener?.showData(updateListener,rakhely)
-            leltarListener?.clearAll()
+    fun buttonClick(view: View) {
+        leltarListener?.setProgressOn()
+        if (rakhely.isNotEmpty()) {
+            leltarListener?.showData(updateListener, rakhely)
+            //leltarListener?.clearAll()
         }
     }
-    fun mennyisegClick(view: View){
-        if(mennyiseg?.isNotEmpty()!!){
+
+    fun mennyisegClick(view: View) {
+        if (mennyiseg?.isNotEmpty()!!) {
             leltarListener?.mennyisegListener(mennyiseg?.toDouble()!!)
         }
     }
-    fun insertLeltarData(view: View){
-        if(rakhely.isNotEmpty() && cikkszam.isNotEmpty()){
+
+    fun insertLeltarData(view: View) {
+        if (rakhely.isNotEmpty() && cikkszam.isNotEmpty()) {
             CoroutineScope(IO).launch {
-                if(sql.insertData(cikkszam,mennyiseg?.toDouble()!!,
-                        MainActivity.dolgKod,warehouseID,rakhely,megjegyzes)){
+                if (sql.insertData(
+                        cikkszam, mennyiseg?.toDouble()!!,
+                        MainActivity.dolgKod, warehouseID, rakhely, megjegyzes
+                    )
+                ) {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Sikeres feltöltés")
                         leltarListener?.afterUpload()
                     }
-                }else{
+                } else {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Nem sikerült az elemet felvenni")
                     }
@@ -60,30 +66,31 @@ constructor(
             }
         }
     }
-    fun cikkTextSet(code: String){
+
+    fun cikkTextSet(code: String) {
         bundle.clear()
         leltarListener?.setProgressOn()
         CoroutineScope(IO).launch {
-            if(sql.isPolc(code)){
+            if (sql.isPolc(code)) {
                 warehouseID = bundle.getString("RAKKOD")!!
-                if(sql.isPolcOpen(code)){
+                if (sql.isPolcOpen(code)) {
                     CoroutineScope(Main).launch {
                         leltarListener?.setRaktarText(code)
                         leltarListener?.setProgressOff()
                         leltarListener?.raktarAdat(bundle.getString("RAK")!!)
                         leltarListener?.errorCode("A $code polc meg van kezdve, jelenleg ezt a polcot leltározod $rakhely")
                     }
-                }else if(sql.isPolcEmpty(code)){
+                } else if (sql.isPolcEmpty(code)) {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("A $code polc üres")
                         leltarListener?.setProgressOff()
                     }
-                }else if(sql.isPolcClosed(code)){
+                } else if (sql.isPolcClosed(code)) {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("A $code polc lezárt státuszú")
                         leltarListener?.setProgressOff()
                     }
-                }else if (sql.uploadPolc(code)){
+                } else if (sql.uploadPolc(code)) {
                     CoroutineScope(Main).launch {
                         leltarListener?.setRaktarText(code)
                         leltarListener?.setProgressOff()
@@ -91,14 +98,17 @@ constructor(
                         leltarListener?.errorCode("A $code polcot felvettem")
                     }
                 }
-            }else if(sql.isCikk(code)){
+            } else if (sql.isCikk(code)) {
                 CoroutineScope(Main).launch {
                     leltarListener?.setCikkText(code)
                     leltarListener?.setProgressOff()
-                    leltarListener?.cikkAdatok(bundle.getString("MEG1"),bundle.getString("MEG2"),bundle.getString("UNIT")!!)
+                    leltarListener?.cikkAdatok(
+                        bundle.getString("MEG1"),
+                        bundle.getString("MEG2"),
+                        bundle.getString("UNIT")!!
+                    )
                 }
-            }
-            else{
+            } else {
                 CoroutineScope(Main).launch {
                     leltarListener?.errorCode("Egyik sem az")
                     leltarListener?.setProgressOff()
@@ -113,11 +123,17 @@ constructor(
             CoroutineScope(Main).launch {
                 leltarListener?.clearAll()
                 leltarListener?.errorCode("A $code polcot lezártam")
+                leltarListener?.setProgressOff()
             }
         }
     }
 
     override fun clear() {
-       leltarListener?.clearAll()
+        leltarListener?.clearAll()
+        leltarListener?.setProgressOff()
+    }
+
+    override fun onCancel() {
+        leltarListener?.setProgressOff()
     }
 }

@@ -141,9 +141,9 @@ class LeltarFragment : Fragment(),LeltarListener {
     }
 
     override fun showData(listener: UpdateInterface, code: String) {
-        if(binding.megjegyzesText.isFocusable && binding.megjegyzesText.isFocusableInTouchMode){
+       // if(binding.megjegyzesText.isFocusable && binding.megjegyzesText.isFocusableInTouchMode){
             closeBin(listener,code,requireContext())
-        }
+       // }
     }
 
     class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :

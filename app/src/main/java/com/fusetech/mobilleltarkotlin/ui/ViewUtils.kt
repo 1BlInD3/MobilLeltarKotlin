@@ -21,7 +21,10 @@ fun closeBin(listener: UpdateInterface, code: String,context: Context){
         listener.update(code)
     }
     dialog.setNegativeButton("Nem"){_,_->
-
+        listener.clear()
+    }
+    dialog.setOnCancelListener {
+        listener.onCancel()
     }
     dialog.create()
     dialog.show().getButton(DialogInterface.BUTTON_POSITIVE).requestFocus()
