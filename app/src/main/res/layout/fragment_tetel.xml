@@ -167,6 +167,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
                     android:focusable="false"
                     android:focusableInTouchMode="false"/>
+
+                <ProgressBar
+                    android:id="@+id/tetelProgress"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="77dp"
+                    android:layout_height="86dp"
+                    android:layout_marginStart="112dp"
+                    android:layout_marginTop="77dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/pocakszin4"
+                    app:layout_constraintStart_toStartOf="@+id/itemRecycler"
+                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </HorizontalScrollView>
 

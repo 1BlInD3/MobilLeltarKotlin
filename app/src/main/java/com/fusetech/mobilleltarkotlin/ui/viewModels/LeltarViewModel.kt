@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import com.fusetech.mobilleltarkotlin.activity.MainActivity
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.bundle
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakthely
 import com.fusetech.mobilleltarkotlin.repositories.Sql
 import com.fusetech.mobilleltarkotlin.ui.interfaces.LeltarListener
 import com.fusetech.mobilleltarkotlin.ui.interfaces.UpdateInterface
@@ -98,6 +99,7 @@ constructor(
                         leltarListener?.errorCode("A $code polcot felvettem")
                     }
                 }
+                rakthely = rakhely
             } else if (sql.isCikk(code)) {
                 CoroutineScope(Main).launch {
                     leltarListener?.setCikkText(code)

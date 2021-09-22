@@ -170,25 +170,7 @@ class Sql {
             val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[LeltarRakhEll] WHERE RaktHely = ? AND Statusz = 1")
             statement.setString(1,code)
             val resultSet = statement.executeQuery()
-            if(!resultSet.next()){
-                polc = false
-            }else{
-                polc = true
-                val statement2 = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
-                statement2.setString(1,code)
-                val resultSet2 = statement2.executeQuery()
-                if(!resultSet2.next()){
-                    rakhelyList.clear()
-                    Log.d(TAG, "isPolcOpen: Üres a polc")
-                }else{
-                    rakhelyList.clear()
-                    do {
-                        rakhelyList.add(RaktarAdat(resultSet2.getString("Cikkszam"),resultSet2.getString("Description1"),resultSet2.getString("Description2"),resultSet2.getDouble("Mennyiseg"),resultSet2.getString("Megjegyzes"),resultSet2.getInt("Bizszam")))
-                    }while (resultSet2.next())
-                   // rakhelyInfo.postValue(rakhelyList)
-                   rakhelyInfo = rakhelyList
-                }
-            }
+            polc = resultSet.next()
         }catch (e: Exception){
             Log.d(TAG, "isPolcOpen: $e")
         }
@@ -347,6 +329,31 @@ class Sql {
             Log.d(TAG, "cikkResultQuery: $e")
         }
         return cikkList
+    }
+    fun loadBinItems(code: String): MutableLiveData<ArrayList<RaktarAdat>>{
+        val connection: Connection
+        var myData = MutableLiveData<ArrayList<RaktarAdat>>()
+        rakhelyInfo.clear()
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try{
+            connection = DriverManager.getConnection(MainActivity.read_connect)
+            val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
+            statement.setString(1,code)
+            val resultSet = statement.executeQuery()
+            if(!resultSet.next()){
+                Log.d(TAG, "loadBinItems: Üres")
+            }else{
+               // rakhelyList.clear()
+                do {
+                    rakhelyInfo.add(RaktarAdat(resultSet.getString("Cikkszam"),resultSet.getString("Description1"),resultSet.getString("Description2"),resultSet.getDouble("Mennyiseg"),resultSet.getString("Megjegyzes"),resultSet.getInt("Bizszam")))
+                }while(resultSet.next())
+               // rakhelyInfo = rakhelyList
+               myData.postValue(rakhelyInfo)
+            }
+        }catch (e: Exception){
+            Log.d(TAG, "loadBinItems: $e")
+        }
+        return myData
     }
     fun insertData(cikk: String, mennyiseg: Double, dolgKod: String, raktar: String, rakhely: String, megjegyzes: String?): Boolean{
         val connection: Connection

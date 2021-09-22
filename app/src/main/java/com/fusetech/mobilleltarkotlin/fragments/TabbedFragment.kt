@@ -48,9 +48,9 @@ class TabbedFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 Log.d(TAG, "onTabReselected: ${tab?.position!!}")
             }
-
         })
-
         return binding.root
     }
+
+
 }

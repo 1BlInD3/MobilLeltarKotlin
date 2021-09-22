@@ -22,26 +22,28 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     private var cikkPolcFragment: CikkPolcFragment? = null
     private var barcodeData: String = ""
     private var tabbedFragment: TabbedFragment? = null
-/*
-* Ahogy felvettem a ratárra egy cikket akkor beír a LeltarRakhEll-be 1es státuszt kap. A tételt felveszi a Leltaradat táblába 1es státusszal (RaktHely,DolgozoKezd,Statusz,KezdDatum)
-* Az új rakhely lenoymása után megkérdezi lezárom-e, ha igen akkor a LeltarRakhEll 2es státusz (DolgozoBef,BefDatum, Statusz)
-* Ha a cikk üres akkor 0 státsuz a fejbe
-*
-*
-*
-*
-*
-* */
+
+    /*
+    * Ahogy felvettem a ratárra egy cikket akkor beír a LeltarRakhEll-be 1es státuszt kap. A tételt felveszi a Leltaradat táblába 1es státusszal (RaktHely,DolgozoKezd,Statusz,KezdDatum)
+    * Az új rakhely lenoymása után megkérdezi lezárom-e, ha igen akkor a LeltarRakhEll 2es státusz (DolgozoBef,BefDatum, Statusz)
+    * Ha a cikk üres akkor 0 státsuz a fejbe
+    *
+    *
+    *
+    *
+    *
+    * */
     companion object {
         const val read_connect =
             "jdbc:jtds:sqlserver://10.0.0.11;databaseName=Fusetech;user=scala_read;password=scala_read;loginTimeout=10"
         const val write_connect =
-        "jdbc:jtds:sqlserver://10.0.0.11;databaseName=leltar;user=Raktarrendszer;password=PaNNoN0132;loginTimeout=10"
+            "jdbc:jtds:sqlserver://10.0.0.11;databaseName=leltar;user=Raktarrendszer;password=PaNNoN0132;loginTimeout=10"
         var containerCode: String = ""
         var cikkCode: String = ""
         val bundle = Bundle()
         var rakhelyInfo: ArrayList<RaktarAdat> = ArrayList()//MutableLiveData<ArrayList<RaktarAdat>>
         var dolgKod = ""
+        var rakthely = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
