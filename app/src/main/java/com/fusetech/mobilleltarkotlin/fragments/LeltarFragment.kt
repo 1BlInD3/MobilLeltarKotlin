@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.fusetech.mobilleltarkotlin.R
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakhelyInfo
 import com.fusetech.mobilleltarkotlin.closeBin
 import com.fusetech.mobilleltarkotlin.databinding.FragmentLeltarBinding
 import com.fusetech.mobilleltarkotlin.showMe
@@ -110,6 +111,7 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.rakhelyText.requestFocus()
         binding.megjegyzesText.isFocusable = false
         binding.megjegyzesText.isFocusable = false
+        rakhelyInfo.clear()
 
     }
 
@@ -174,6 +176,9 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.cikkszamHeader.isFocusableInTouchMode = false
         binding.megjegyzesText.isFocusable = false
         binding.megjegyzesText.isFocusableInTouchMode = false
+    }
+    fun getRakhely(): String{
+        return binding.rakhelyText.text.toString()
     }
 
 }

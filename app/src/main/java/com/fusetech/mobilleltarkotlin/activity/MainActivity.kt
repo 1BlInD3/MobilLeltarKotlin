@@ -1,6 +1,7 @@
 package com.fusetech.mobilleltarkotlin.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fusetech.mobilleltarkotlin.R
@@ -12,8 +13,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
-    LoginFragment.WithMainActivity, MenuFragment.WithMainActivity,
-    CikkPolcFragment.WithMainActivity{
+    LoginFragment.WithMainActivity, MenuFragment.WithMainActivity, TabbedFragment.With,
+    CikkPolcFragment.WithMainActivity {
     //private val TAG = "MainActivity"
     private var manager: AidcManager? = null
     private var barcodeReader: BarcodeReader? = null
@@ -178,4 +179,13 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
             .commit()
     }
 
+    override fun getString() {
+        try {
+            val fragmentName = supportFragmentManager.findFragmentByTag("f0")
+            rakthely = (fragmentName as LeltarFragment).getRakhely()
+            Log.d("MMM", "getString: $rakthely")
+        } catch (e: Exception) {
+            Log.d("MMM", "getString: $e")
+        }
+    }
 }

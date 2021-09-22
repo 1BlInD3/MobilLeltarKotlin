@@ -1,5 +1,6 @@
 package com.fusetech.mobilleltarkotlin.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,10 @@ private const val TAG = "TabbedFragment"
 class TabbedFragment : Fragment() {
     private val viewModel: TabbedViewModel by viewModels()
     private lateinit var  binding: FragmentTabbedBinding
+    private lateinit var with: With
+    interface With{
+        fun getString()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +44,7 @@ class TabbedFragment : Fragment() {
             TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 Log.d(TAG, "onTabSelected: ${tab?.position!!}")
+                with.getString()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -52,5 +58,12 @@ class TabbedFragment : Fragment() {
         return binding.root
     }
 
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        with = if(context is With){
+            context
+        }else{
+            throw Exception("must implement")
+        }
+    }
 }
