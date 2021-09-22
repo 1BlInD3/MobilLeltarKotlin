@@ -66,4 +66,7 @@ class TabbedFragment : Fragment() {
             throw Exception("must implement")
         }
     }
+    fun changeTab(){
+        binding.mViewPager.setCurrentItem(0)
+    }
 }

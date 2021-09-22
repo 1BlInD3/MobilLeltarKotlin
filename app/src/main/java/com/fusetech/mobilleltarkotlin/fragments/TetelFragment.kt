@@ -1,6 +1,7 @@
 package com.fusetech.mobilleltarkotlin.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,8 +16,6 @@ import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakhelyInf
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakthely
 import com.fusetech.mobilleltarkotlin.adapters.RaktarAdatAdapter
 import com.fusetech.mobilleltarkotlin.databinding.FragmentTetelBinding
-import com.fusetech.mobilleltarkotlin.showMe
-import com.fusetech.mobilleltarkotlin.ui.interfaces.TetelListener
 import com.fusetech.mobilleltarkotlin.ui.viewModels.TetelViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -24,11 +23,24 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
+private const val TAG = "TetelFragment"
+
 @AndroidEntryPoint
-class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection, TetelListener {
-    private val TAG = "TetelFragment"
+class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
     private val viewModel: TetelViewModel by viewModels()
     private lateinit var binding: FragmentTetelBinding
+    private lateinit var changeTab: ChangeTab
+
+    interface ChangeTab {
+        fun changeTab()
+        fun setData(cikkszam: String,
+                    meg1: String,
+                    meg2: String?,
+                    qty: Double,
+                    megjegyzes: String?,
+                    bizszam: Int)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +48,6 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection, TetelListe
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tetel, container, false)
         binding.viewModel = viewModel
         binding.tetelProgress.visibility = View.GONE
-        viewModel.tetelListener = this
         return binding.root
     }
 
@@ -47,7 +58,13 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection, TetelListe
     }
 
     override fun onCurrentClick(position: Int) {
-        showMe("${position + 1}", requireContext())
+        changeTab.changeTab()
+        changeTab.setData(viewModel.getItems().value!![position].cikkszam,
+            viewModel.getItems().value!![position].megnevezes1,
+            viewModel.getItems().value!![position].megnevezes2,
+            viewModel.getItems().value!![position].mennyiseg,
+            viewModel.getItems().value!![position].megjegyzes,
+            viewModel.getItems().value!![position].bizszam)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -79,17 +96,13 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection, TetelListe
             }
         }
     }
-    override fun setProgressOn() {
-        binding.tetelProgress.visibility = View.VISIBLE
-    }
 
-    override fun setProgressOff() {
-        binding.tetelProgress.visibility = View.GONE
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        changeTab = if (context is ChangeTab) {
+            context
+        } else {
+            throw Exception("Must implement")
+        }
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    override fun refreshRecycler() {
-        initRecycler()
-    }
-
 }

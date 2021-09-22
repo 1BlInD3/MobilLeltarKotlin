@@ -31,12 +31,13 @@ constructor(
     var megjegyzes: String? = ""
     var warehouseID = ""
     var updateListener: UpdateInterface = this
+    var isUpdate = false
+    var bizszam = 0
 
     fun buttonClick(view: View) {
         leltarListener?.setProgressOn()
         if (rakhely.isNotEmpty()) {
             leltarListener?.showData(updateListener, rakhely)
-            //leltarListener?.clearAll()
         }
     }
 
@@ -47,7 +48,7 @@ constructor(
     }
 
     fun insertLeltarData(view: View) {
-        if (rakhely.isNotEmpty() && cikkszam.isNotEmpty()) {
+        if (rakhely.isNotEmpty() && cikkszam.isNotEmpty() && !isUpdate) {
             CoroutineScope(IO).launch {
                 if (sql.insertData(
                         cikkszam, mennyiseg?.toDouble()!!,
@@ -61,6 +62,19 @@ constructor(
                 } else {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Nem sikerült az elemet felvenni")
+                    }
+                }
+            }
+        }else if(rakhely.isNotEmpty() && cikkszam.isNotEmpty() && isUpdate){
+            CoroutineScope(IO).launch {
+                if(sql.updateData(bizszam,mennyiseg?.toDouble()!!,megjegyzes)){
+                    CoroutineScope(Main).launch {
+                        leltarListener?.errorCode("Sikeres frissítés")
+                        leltarListener?.afterUpload()
+                    }
+                }else{
+                    CoroutineScope(Main).launch {
+                        leltarListener?.errorCode("Nem sikerült az elemet frissíteni")
                     }
                 }
             }

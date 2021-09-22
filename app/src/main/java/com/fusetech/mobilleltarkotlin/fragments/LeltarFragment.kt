@@ -21,14 +21,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
 @AndroidEntryPoint
-class LeltarFragment : Fragment(),LeltarListener {
-    val viewModel : LeltarViewModel by viewModels()
+class LeltarFragment : Fragment(), LeltarListener {
+    val viewModel: LeltarViewModel by viewModels()
     private lateinit var binding: FragmentLeltarBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_leltar, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_leltar, container, false)
         binding.viewModel = viewModel
         viewModel.leltarListener = this
         binding.progressBar2.visibility = View.GONE
@@ -36,24 +36,26 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.rakhelyText.isFocusableInTouchMode = true
         binding.rakhelyText.requestFocus()
         binding.cikkszamHeader.filters = arrayOf<InputFilter>(
-            DecimalDigitsInputFilter(9,2)
+            DecimalDigitsInputFilter(9, 2)
         )
         focusDefault()
         return binding.root
     }
-    fun setCikk(code: String){
-       viewModel.cikkTextSet(code)
+
+    fun setCikk(code: String) {
+        viewModel.cikkTextSet(code)
     }
+
     override fun setRaktarText(code: String) {
-        if(binding.rakhelyText.text.isEmpty()){
+        if (binding.rakhelyText.text.isEmpty()) {
             binding.rakhelyText.setText(code)
             binding.rakhelyText.isFocusable = false
             binding.rakhelyText.isFocusableInTouchMode = false
             binding.cikkszamText.isFocusable = true
             binding.cikkszamText.isFocusableInTouchMode = true
             binding.cikkszamText.requestFocus()
-        }else{
-            showMe("Cikket vigyél fel!",requireContext())
+        } else {
+            showMe("Cikket vigyél fel!", requireContext())
             binding.cikkszamText.requestFocus()
             binding.rakhelyText.isFocusable = false
             binding.rakhelyText.isFocusableInTouchMode = false
@@ -61,15 +63,15 @@ class LeltarFragment : Fragment(),LeltarListener {
     }
 
     override fun setCikkText(code: String) {
-        if(binding.rakhelyText.text.isNotEmpty()){
+        if (binding.rakhelyText.text.isNotEmpty()) {
             binding.cikkszamText.setText(code)
             binding.cikkszamText.isFocusable = false
             binding.cikkszamText.isFocusableInTouchMode = false
             binding.cikkszamHeader.isFocusable = true
             binding.cikkszamHeader.isFocusableInTouchMode = true
             binding.cikkszamHeader.requestFocus()
-        }else{
-            showMe("Raktárt vigyél fel előbb",requireContext())
+        } else {
+            showMe("Raktárt vigyél fel előbb", requireContext())
         }
     }
 
@@ -82,7 +84,7 @@ class LeltarFragment : Fragment(),LeltarListener {
     }
 
     override fun cikkAdatok(des1: String?, desc2: String?, unit: String) {
-        if(binding.rakhelyText.text.isNotEmpty()){
+        if (binding.rakhelyText.text.isNotEmpty()) {
             binding.desc1.text = des1
             binding.desc2.text = desc2
             binding.unitLeltar.text = unit
@@ -116,7 +118,7 @@ class LeltarFragment : Fragment(),LeltarListener {
     }
 
     override fun mennyisegListener(quantity: Double) {
-        if(binding.cikkszamHeader.isFocusable && binding.cikkszamHeader.isFocusableInTouchMode){
+        if (binding.cikkszamHeader.isFocusable && binding.cikkszamHeader.isFocusableInTouchMode) {
             binding.cikkszamHeader.setText(quantity.toString().trim())
             binding.cikkszamHeader.isFocusable = false
             binding.cikkszamHeader.isFocusableInTouchMode = false
@@ -143,14 +145,12 @@ class LeltarFragment : Fragment(),LeltarListener {
     }
 
     override fun showData(listener: UpdateInterface, code: String) {
-       // if(binding.megjegyzesText.isFocusable && binding.megjegyzesText.isFocusableInTouchMode){
-            closeBin(listener,code,requireContext())
-       // }
+        closeBin(listener, code, requireContext())
     }
 
     class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :
         InputFilter {
-        var mPattern: Pattern =
+        private var mPattern: Pattern =
             Pattern.compile("[0-9]{0," + (digitsBeforeZero - 1) + "}+((\\.[0-9]{0," + (digitsAfterZero - 1) + "})?)||(\\.)?")
 
         override fun filter(
@@ -164,9 +164,9 @@ class LeltarFragment : Fragment(),LeltarListener {
             val matcher = mPattern.matcher(dest)
             return if (!matcher.matches()) "" else null
         }
-
     }
-    private fun focusDefault(){
+
+    private fun focusDefault() {
         binding.rakhelyText.isFocusable = true
         binding.rakhelyText.isFocusableInTouchMode = true
         binding.rakhelyText.requestFocus()
@@ -177,8 +177,33 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.megjegyzesText.isFocusable = false
         binding.megjegyzesText.isFocusableInTouchMode = false
     }
-    fun getRakhely(): String{
+
+    fun getRakhely(): String {
         return binding.rakhelyText.text.toString()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+    fun getData(cikkszam: String,
+                meg1: String,
+                meg2: String?,
+                qty: Double,
+                megjegyzes: String?,
+                bizszam: Int){
+        binding.cikkszamText.setText(cikkszam)
+        binding.cikkszamHeader.setText(qty.toString().trim())
+        binding.megjegyzesText.setText(megjegyzes)
+        binding.desc1.text = meg1
+        binding.desc2.text = meg2
+        viewModel.bizszam = bizszam
+        viewModel.isUpdate = true
+        binding.cikkszamText.isFocusable = false
+        binding.cikkszamText.isFocusableInTouchMode= false
+        binding.cikkszamHeader.isFocusable = true
+        binding.cikkszamHeader.isFocusableInTouchMode = true
+        binding.cikkszamHeader.requestFocus()
+        binding.cikkszamHeader.selectAll()
+
+    }
 }
