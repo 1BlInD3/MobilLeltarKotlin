@@ -10,9 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.fusetech.mobilleltarkotlin.R
+import com.fusetech.mobilleltarkotlin.closeBin
 import com.fusetech.mobilleltarkotlin.databinding.FragmentLeltarBinding
 import com.fusetech.mobilleltarkotlin.showMe
 import com.fusetech.mobilleltarkotlin.ui.interfaces.LeltarListener
+import com.fusetech.mobilleltarkotlin.ui.interfaces.UpdateInterface
 import com.fusetech.mobilleltarkotlin.ui.viewModels.LeltarViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
@@ -107,17 +109,41 @@ class LeltarFragment : Fragment(),LeltarListener {
         binding.rakhelyText.isFocusableInTouchMode = true
         binding.rakhelyText.requestFocus()
         binding.megjegyzesText.isFocusable = false
-        binding.megjegyzesText.isFocusable = true
+        binding.megjegyzesText.isFocusable = false
 
     }
 
     override fun mennyisegListener(quantity: Double) {
-        binding.cikkszamHeader.setText(quantity.toString().trim())
-        binding.cikkszamHeader.isFocusable = false
-        binding.cikkszamHeader.isFocusableInTouchMode = false
-        binding.megjegyzesText.isFocusable = true
-        binding.megjegyzesText.isFocusableInTouchMode = true
-        binding.megjegyzesText.requestFocus()
+        if(binding.cikkszamHeader.isFocusable && binding.cikkszamHeader.isFocusableInTouchMode){
+            binding.cikkszamHeader.setText(quantity.toString().trim())
+            binding.cikkszamHeader.isFocusable = false
+            binding.cikkszamHeader.isFocusableInTouchMode = false
+            binding.megjegyzesText.isFocusable = true
+            binding.megjegyzesText.isFocusableInTouchMode = true
+            binding.megjegyzesText.requestFocus()
+        }
+    }
+
+    override fun afterUpload() {
+        binding.cikkszamHeader.setText("")
+        binding.cikkszamText.setText("")
+        binding.megjegyzesText.setText("")
+        binding.unitLeltar.text = ""
+        binding.desc1.text = ""
+        binding.desc2.text = ""
+        binding.internalNameText.text = ""
+        binding.rakhelyText.requestFocus()
+        binding.megjegyzesText.isFocusable = false
+        binding.megjegyzesText.isFocusable = false
+        binding.cikkszamText.isFocusable = true
+        binding.cikkszamText.isFocusableInTouchMode = true
+        binding.cikkszamText.requestFocus()
+    }
+
+    override fun showData(listener: UpdateInterface, code: String) {
+        if(binding.megjegyzesText.isFocusable && binding.megjegyzesText.isFocusableInTouchMode){
+            closeBin(listener,code,requireContext())
+        }
     }
 
     class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :

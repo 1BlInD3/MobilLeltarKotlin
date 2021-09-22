@@ -10,4 +10,6 @@ interface LeltarListener {
     fun errorCode(code: String)
     fun clearAll()
     fun mennyisegListener(quantity: Double)
+    fun afterUpload()
+    fun showData(listener: UpdateInterface, code: String)
 }

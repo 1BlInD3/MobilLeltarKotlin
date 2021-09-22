@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         var containerCode: String = ""
         var cikkCode: String = ""
         val bundle = Bundle()
-        lateinit var rakhelyInfo: ArrayList<RaktarAdat>//MutableLiveData<ArrayList<RaktarAdat>>
+        var rakhelyInfo: ArrayList<RaktarAdat> = ArrayList()//MutableLiveData<ArrayList<RaktarAdat>>
         var dolgKod = ""
     }
 

@@ -2,10 +2,11 @@ package com.fusetech.mobilleltarkotlin.ui.viewModels
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import com.fusetech.mobilleltarkotlin.activity.MainActivity
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.bundle
-import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.dolgKod
 import com.fusetech.mobilleltarkotlin.repositories.Sql
 import com.fusetech.mobilleltarkotlin.ui.interfaces.LeltarListener
+import com.fusetech.mobilleltarkotlin.ui.interfaces.UpdateInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -18,35 +19,43 @@ class LeltarViewModel
 @Inject
 constructor(
     val sql: Sql
-) : ViewModel() {
+) : ViewModel(),UpdateInterface {
     var leltarListener: LeltarListener? = null
     var rakhely: String = ""
     var cikkszam = ""
-    var mennyiseg = ""
+    var mennyiseg: String? = ""
     var desc1 = ""
     var desc2 = ""
     var unit = ""
     var internalName = ""
     var megjegyzes: String? = ""
     var warehouseID = ""
-
+    var updateListener: UpdateInterface = this
 
     fun buttonClick(view: View){
-        leltarListener?.clearAll()
+        if(rakhely.isNotEmpty()){
+            leltarListener?.showData(updateListener,rakhely)
+            leltarListener?.clearAll()
+        }
     }
     fun mennyisegClick(view: View){
-        leltarListener?.mennyisegListener(mennyiseg.toDouble())
+        if(mennyiseg?.isNotEmpty()!!){
+            leltarListener?.mennyisegListener(mennyiseg?.toDouble()!!)
+        }
     }
     fun insertLeltarData(view: View){
-        CoroutineScope(IO).launch {
-            if(sql.insertData(cikkszam,mennyiseg.toDouble(),dolgKod,warehouseID,rakhely,megjegyzes)){
-                CoroutineScope(Main).launch {
-                    leltarListener?.errorCode("Sikeres feltöltés")
-                    leltarListener?.clearAll()
-                }
-            }else{
-                CoroutineScope(Main).launch {
-                    leltarListener?.errorCode("Nem sikerült az elemet felvenni")
+        if(rakhely.isNotEmpty() && cikkszam.isNotEmpty()){
+            CoroutineScope(IO).launch {
+                if(sql.insertData(cikkszam,mennyiseg?.toDouble()!!,
+                        MainActivity.dolgKod,warehouseID,rakhely,megjegyzes)){
+                    CoroutineScope(Main).launch {
+                        leltarListener?.errorCode("Sikeres feltöltés")
+                        leltarListener?.afterUpload()
+                    }
+                }else{
+                    CoroutineScope(Main).launch {
+                        leltarListener?.errorCode("Nem sikerült az elemet felvenni")
+                    }
                 }
             }
         }
@@ -96,5 +105,19 @@ constructor(
                 }
             }
         }
+    }
+
+    override fun update(code: String) {
+        CoroutineScope(IO).launch {
+            sql.closePolcLeltar(code)
+            CoroutineScope(Main).launch {
+                leltarListener?.clearAll()
+                leltarListener?.errorCode("A $code polcot lezártam")
+            }
+        }
+    }
+
+    override fun clear() {
+       leltarListener?.clearAll()
     }
 }

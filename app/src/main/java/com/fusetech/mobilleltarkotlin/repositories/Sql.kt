@@ -224,6 +224,22 @@ class Sql {
         }
         return closed
     }
+    fun closePolcLeltar(code: String){
+        val connection: Connection
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try {
+            val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
+            connection = DriverManager.getConnection(MainActivity.write_connect)
+            val statement = connection.prepareStatement("UPDATE [leltar].[dbo].[LeltarRakhEll] SET DolgozoBef = ?, Statusz = ?, BefDatum = ? WHERE RaktHely = ?")
+            statement.setString(1, dolgKod)
+            statement.setInt(2,2)
+            statement.setString(3,date)
+            statement.setString(4,code)
+            statement.executeUpdate()
+        }catch (e: Exception){
+            Log.d(TAG, "closePolcLeltar: $e")
+        }
+    }
     @SuppressLint("SimpleDateFormat")
     fun uploadPolc(code: String): Boolean{
         var upload = false
