@@ -26,9 +26,11 @@ class LeltarFragment : Fragment(), LeltarListener {
     val viewModel: LeltarViewModel by viewModels()
     private lateinit var binding: FragmentLeltarBinding
     private lateinit var mainMenuInteract: MainMenuInteract
-    interface MainMenuInteract{
+
+    interface MainMenuInteract {
         fun tabSwitch()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -193,13 +195,25 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     override fun onResume() {
         super.onResume()
+        if (viewModel.mennyiseg?.isNotEmpty()!!) {
+            binding.megjegyzesText.requestFocus()
+        } else if (viewModel.cikkszam.isNotEmpty()) {
+            binding.cikkszamHeader.requestFocus()
+        } else if (viewModel.rakhely.isNotEmpty()) {
+            binding.cikkszamText.requestFocus()
+        } else {
+            binding.rakhelyText.requestFocus()
+        }
     }
-    fun getData(cikkszam: String,
-                meg1: String,
-                meg2: String?,
-                qty: Double,
-                megjegyzes: String?,
-                bizszam: Int){
+
+    fun getData(
+        cikkszam: String,
+        meg1: String,
+        meg2: String?,
+        qty: Double,
+        megjegyzes: String?,
+        bizszam: Int
+    ) {
         binding.cikkszamText.setText(cikkszam)
         binding.cikkszamHeader.setText(qty.toString().trim())
         binding.megjegyzesText.setText(megjegyzes)
@@ -208,7 +222,7 @@ class LeltarFragment : Fragment(), LeltarListener {
         viewModel.bizszam = bizszam
         viewModel.isUpdate = true
         binding.cikkszamText.isFocusable = false
-        binding.cikkszamText.isFocusableInTouchMode= false
+        binding.cikkszamText.isFocusableInTouchMode = false
         binding.cikkszamHeader.isFocusable = true
         binding.cikkszamHeader.isFocusableInTouchMode = true
         binding.cikkszamHeader.requestFocus()
@@ -218,10 +232,11 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mainMenuInteract = if(context is MainMenuInteract){
+        mainMenuInteract = if (context is MainMenuInteract) {
             context
-        }else{
+        } else {
             throw Exception("Must implement")
         }
     }
+
 }

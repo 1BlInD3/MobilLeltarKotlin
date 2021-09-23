@@ -75,5 +75,17 @@ class MenuFragment : Fragment(), MenuLstener {
         }else{
             throw RuntimeException(context.toString() + "must implement")
         }
+       /* OnBackPressedCallback callback = new OnBackPressedCallback(
+            true // default to enabled
+        ) {
+            Override
+                    public void handleOnBackPressed() {
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+            this, // LifecycleOwner
+            callback);*/
     }
+
+
 }

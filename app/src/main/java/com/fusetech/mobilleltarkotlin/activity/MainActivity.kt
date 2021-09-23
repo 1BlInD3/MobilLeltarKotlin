@@ -203,11 +203,12 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         bizszam: Int
     ) {
         val fragment = supportFragmentManager.findFragmentByTag("f0")
-        (fragment as LeltarFragment).getData(cikkszam,meg1,meg2,qty,megjegyzes,bizszam)
+        (fragment as LeltarFragment).getData(cikkszam, meg1, meg2, qty, megjegyzes, bizszam)
     }
 
     override fun tabSwitch() {
         val fragment = supportFragmentManager.findFragmentByTag("TABBED")
         (fragment as TabbedFragment).changeTetelTab()
     }
+
 }

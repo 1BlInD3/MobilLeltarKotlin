@@ -15,7 +15,7 @@
         tools:context=".fragments.MenuFragment"
         android:background="@color/pocakszin2">
 
-        <Button
+        <android.widget.Button
             android:id="@+id/kilepButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_marginTop="36dp"
             android:layout_marginEnd="20dp"
             android:textColor="@android:color/white"
-            android:background="@drawable/buttn"
+            android:background="@drawable/blue_button_select"
             android:text="3. Kilépés"
             android:onClick="@{viewModel::onKilepClick}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lekerdezesButton" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/lekerdezesButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:layout_marginTop="36dp"
             android:layout_marginEnd="20dp"
             android:textColor="@android:color/white"
-            android:background="@drawable/buttn"
+            android:background="@drawable/blue_button_select"
             android:text="2. Lekérdezés polcra/cikkre"
             android:onClick="@{viewModel::onLekerdezesClick}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/leltarButton" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/leltarButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:layout_marginTop="72dp"
             android:layout_marginEnd="20dp"
             android:textColor="@android:color/white"
-            android:background="@drawable/buttn"
+            android:background="@drawable/blue_button_select"
             android:text="1. Leltározás"
             android:onClick="@{viewModel::onLeltarozasClick}"
             app:layout_constraintEnd_toEndOf="parent"

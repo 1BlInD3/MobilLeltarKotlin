@@ -12,5 +12,6 @@
     <color name="pocakszin3">#F2F4F8</color>
     <color name="pocakszin4">#415A80</color>
     <color name="whiteFocused">#a6a6a6</color>
+    <color name="darkBlue">#242d47</color>
     <color name="headerszurke">#8C8984</color>
 </resources>
