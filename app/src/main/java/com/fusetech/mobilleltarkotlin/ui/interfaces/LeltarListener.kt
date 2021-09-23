@@ -12,4 +12,5 @@ interface LeltarListener {
     fun mennyisegListener(quantity: Double)
     fun afterUpload()
     fun showData(listener: UpdateInterface, code: String)
+    fun tabSwitch()
 }

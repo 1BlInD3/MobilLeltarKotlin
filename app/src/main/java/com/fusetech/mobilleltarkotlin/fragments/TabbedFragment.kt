@@ -69,4 +69,7 @@ class TabbedFragment : Fragment() {
     fun changeTab(){
         binding.mViewPager.setCurrentItem(0)
     }
+    fun changeTetelTab(){
+        binding.mViewPager.setCurrentItem(1)
+    }
 }

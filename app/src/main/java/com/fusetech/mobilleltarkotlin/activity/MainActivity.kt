@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     LoginFragment.WithMainActivity, MenuFragment.WithMainActivity, TabbedFragment.With,
-    CikkPolcFragment.WithMainActivity, TetelFragment.ChangeTab {
+    CikkPolcFragment.WithMainActivity, TetelFragment.ChangeTab, LeltarFragment.MainMenuInteract {
     //private val TAG = "MainActivity"
     private var manager: AidcManager? = null
     private var barcodeReader: BarcodeReader? = null
@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         var containerCode: String = ""
         var cikkCode: String = ""
         val bundle = Bundle()
-        val updateBundle = Bundle()
         var rakhelyInfo: ArrayList<RaktarAdat> = ArrayList()//MutableLiveData<ArrayList<RaktarAdat>>
         var dolgKod = ""
         var rakthely = ""
@@ -205,5 +204,10 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     ) {
         val fragment = supportFragmentManager.findFragmentByTag("f0")
         (fragment as LeltarFragment).getData(cikkszam,meg1,meg2,qty,megjegyzes,bizszam)
+    }
+
+    override fun tabSwitch() {
+        val fragment = supportFragmentManager.findFragmentByTag("TABBED")
+        (fragment as TabbedFragment).changeTetelTab()
     }
 }

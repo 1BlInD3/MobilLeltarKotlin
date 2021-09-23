@@ -65,14 +65,14 @@ constructor(
                     }
                 }
             }
-        }else if(rakhely.isNotEmpty() && cikkszam.isNotEmpty() && isUpdate){
+        } else if (rakhely.isNotEmpty() && cikkszam.isNotEmpty() && isUpdate) {
             CoroutineScope(IO).launch {
-                if(sql.updateData(bizszam,mennyiseg?.toDouble()!!,megjegyzes)){
+                if (sql.updateData(bizszam, mennyiseg?.toDouble()!!, megjegyzes)) {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Sikeres frissítés")
                         leltarListener?.afterUpload()
                     }
-                }else{
+                } else {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Nem sikerült az elemet frissíteni")
                     }
@@ -88,7 +88,15 @@ constructor(
             if (sql.isPolc(code)) {
                 warehouseID = bundle.getString("RAKKOD")!!
                 if (sql.isPolcOpen(code)) {
-                    CoroutineScope(Main).launch {
+                    if (sql.hasPolcItems(code)) {
+                        CoroutineScope(Main).launch {
+                            leltarListener?.setRaktarText(code)
+                            leltarListener?.setProgressOff()
+                            leltarListener?.raktarAdat(bundle.getString("RAK")!!)
+                            leltarListener?.errorCode("A $code polc meg van kezdve és cikkek vannak rajta")
+                            leltarListener?.tabSwitch()
+                        }
+                    } else {
                         leltarListener?.setRaktarText(code)
                         leltarListener?.setProgressOff()
                         leltarListener?.raktarAdat(bundle.getString("RAK")!!)
@@ -111,6 +119,8 @@ constructor(
                         leltarListener?.raktarAdat(bundle.getString("RAK")!!)
                         leltarListener?.errorCode("A $code polcot felvettem")
                     }
+                } else {
+                    leltarListener?.errorCode("Nem sikerült a polcot leellenőrizni!")
                 }
             } else if (sql.isCikk(code)) {
                 CoroutineScope(Main).launch {

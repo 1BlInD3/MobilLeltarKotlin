@@ -1,5 +1,6 @@
 package com.fusetech.mobilleltarkotlin.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
@@ -24,6 +25,10 @@ import java.util.regex.Pattern
 class LeltarFragment : Fragment(), LeltarListener {
     val viewModel: LeltarViewModel by viewModels()
     private lateinit var binding: FragmentLeltarBinding
+    private lateinit var mainMenuInteract: MainMenuInteract
+    interface MainMenuInteract{
+        fun tabSwitch()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -148,6 +153,10 @@ class LeltarFragment : Fragment(), LeltarListener {
         closeBin(listener, code, requireContext())
     }
 
+    override fun tabSwitch() {
+        mainMenuInteract.tabSwitch()
+    }
+
     class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :
         InputFilter {
         private var mPattern: Pattern =
@@ -205,5 +214,14 @@ class LeltarFragment : Fragment(), LeltarListener {
         binding.cikkszamHeader.requestFocus()
         binding.cikkszamHeader.selectAll()
 
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainMenuInteract = if(context is MainMenuInteract){
+            context
+        }else{
+            throw Exception("Must implement")
+        }
     }
 }

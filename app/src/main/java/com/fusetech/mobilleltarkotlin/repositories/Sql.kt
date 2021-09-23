@@ -7,6 +7,7 @@ import com.fusetech.mobilleltarkotlin.activity.MainActivity
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.bundle
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.dolgKod
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakhelyInfo
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.read_connect
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.write_connect
 import com.fusetech.mobilleltarkotlin.dataItems.CikkItems
 import com.fusetech.mobilleltarkotlin.dataItems.PolcItems
@@ -69,6 +70,24 @@ class Sql {
             Log.d(TAG, "isPolcOpen: $e")
         }
         return polc
+    }
+    fun hasPolcItems(code: String): Boolean{
+        var hasItems = false
+        val connection: Connection
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try{
+            connection = DriverManager.getConnection(read_connect)
+            val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
+            statement.setString(1,code)
+            val resultSet = statement.executeQuery()
+            if(resultSet.next()){
+                hasItems = true
+            }
+        }catch (e: Exception){
+            Log.d(TAG, "hasPolcItems: $e")
+            return hasItems
+        }
+        return hasItems
     }
     fun isPolcEmpty(code:String): Boolean{
         var empty = false
