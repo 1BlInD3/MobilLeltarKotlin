@@ -124,20 +124,20 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
 
     override fun loadMenuFragment(hasRight: Boolean) {
         menuFragment = MenuFragment.newInstance(hasRight)
-        supportFragmentManager.beginTransaction().replace(R.id.container, menuFragment!!, "MENU")
+        supportFragmentManager.beginTransaction().replace(R.id.container, menuFragment!!, "MENU").addToBackStack(null)
             .commit()
     }
 
     override fun loadLeltar() {
         tabbedFragment = TabbedFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, tabbedFragment!!, "TABBED").commit()
+            .replace(R.id.container, tabbedFragment!!, "TABBED").addToBackStack(null).commit()
     }
 
     override fun loadLekerdezes() {
         cikkPolcFragment = CikkPolcFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, cikkPolcFragment!!, "CIKKPOLC").commit()
+            .replace(R.id.container, cikkPolcFragment!!, "CIKKPOLC").addToBackStack(null).commit()
     }
 
     override fun loadKilepes() {

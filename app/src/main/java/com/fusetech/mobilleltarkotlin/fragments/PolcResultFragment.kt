@@ -31,6 +31,7 @@ class PolcResultFragment : Fragment(){
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_polc_result, container, false)
         binding.viewModel = viewModel
+        binding.polcProgress.visibility = View.GONE
         return binding.root
     }
 
@@ -42,9 +43,11 @@ class PolcResultFragment : Fragment(){
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
+        binding.polcProgress.visibility = View.VISIBLE
         CoroutineScope(IO).launch {
             viewModel.getListItmes()
             CoroutineScope(Main).launch {
+                binding.polcProgress.visibility = View.GONE
                 initRecycler()
                 viewModel.getItems().observe(viewLifecycleOwner, {
                     binding.recycler.adapter?.notifyDataSetChanged()

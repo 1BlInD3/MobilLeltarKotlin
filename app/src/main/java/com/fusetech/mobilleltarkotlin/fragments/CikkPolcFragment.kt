@@ -2,6 +2,8 @@ package com.fusetech.mobilleltarkotlin.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputFilter.AllCaps
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class CikkPolcFragment : Fragment(),CikkPolcListener {
@@ -38,6 +41,7 @@ class CikkPolcFragment : Fragment(),CikkPolcListener {
         binding.viewModel = viewModel
         viewModel.cikkPolcListener = this
         binding.binOrItem.requestFocus()
+        binding.binOrItem.setFilters(arrayOf<InputFilter>(AllCaps()))
         binding.progressBar.visibility = View.GONE
         binding.subContainer.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
         return binding.root
@@ -78,6 +82,13 @@ class CikkPolcFragment : Fragment(),CikkPolcListener {
             withMainActivity.removeFragment()
         }
     }
+
+    override fun setFocus() {
+        CoroutineScope(Main).launch {
+            binding.binOrItem.selectAll()
+        }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         withMainActivity = if(context is WithMainActivity){

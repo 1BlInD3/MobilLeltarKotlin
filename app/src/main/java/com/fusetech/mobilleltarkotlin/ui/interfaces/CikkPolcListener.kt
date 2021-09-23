@@ -7,4 +7,5 @@ interface CikkPolcListener {
     fun sendBundle(code: String)
     fun sendCikk(code: String)
     fun errorCode(code: String)
+    fun setFocus()
 }
