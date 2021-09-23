@@ -39,6 +39,7 @@ constructor(
         if (rakhely.isNotEmpty()) {
             leltarListener?.showData(updateListener, rakhely)
         }
+        leltarListener?.setProgressOff()
     }
 
     fun mennyisegClick(view: View) {
