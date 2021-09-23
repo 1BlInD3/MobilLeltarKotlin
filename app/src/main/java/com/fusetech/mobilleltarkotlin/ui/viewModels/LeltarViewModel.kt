@@ -79,6 +79,7 @@ constructor(
                     }
                 }
             }
+            isUpdate = false
         }
     }
 
@@ -137,6 +138,30 @@ constructor(
                 CoroutineScope(Main).launch {
                     leltarListener?.errorCode("Egyik sem az")
                     leltarListener?.setProgressOff()
+                }
+            }
+        }
+    }
+
+    fun cikkClikk(view: View) {
+        if(cikkszam.isNotEmpty()){
+            leltarListener?.setProgressOn()
+            CoroutineScope(IO).launch {
+                if (sql.isCikk(cikkszam)) {
+                    CoroutineScope(Main).launch {
+                        leltarListener?.setCikkText(cikkszam)
+                        leltarListener?.setProgressOff()
+                        leltarListener?.cikkAdatok(
+                            bundle.getString("MEG1"),
+                            bundle.getString("MEG2"),
+                            bundle.getString("UNIT")!!
+                        )
+                    }
+                } else {
+                    CoroutineScope(Main).launch {
+                        leltarListener?.errorCode("Nem cikk")
+                        leltarListener?.setProgressOff()
+                    }
                 }
             }
         }
