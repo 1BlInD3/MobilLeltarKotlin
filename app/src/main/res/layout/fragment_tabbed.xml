@@ -13,7 +13,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.TabbedFragment">
+        tools:context=".fragments.TabbedFragment"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabbedLayout"
@@ -22,7 +24,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/pocakszin3">
+            android:background="@color/pocakszin3"
+            android:focusable="false"
+            android:focusableInTouchMode="false">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"

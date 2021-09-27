@@ -49,7 +49,8 @@ constructor(
     }
 
     fun insertLeltarData(view: View) {
-        if (rakhely.isNotEmpty() && cikkszam.isNotEmpty() && !isUpdate) {
+        if (rakhely.isNotEmpty() && cikkszam.isNotEmpty() && mennyiseg?.isNotEmpty()!! && !isUpdate) {
+            leltarListener?.setProgressOn()
             CoroutineScope(IO).launch {
                 if (sql.insertData(
                         cikkszam, mennyiseg?.toDouble()!!,
@@ -59,27 +60,40 @@ constructor(
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Sikeres feltöltés")
                         leltarListener?.afterUpload()
+                        leltarListener?.setProgressOff()
                     }
                 } else {
                     CoroutineScope(Main).launch {
+                        leltarListener?.setProgressOff()
                         leltarListener?.errorCode("Nem sikerült az elemet felvenni")
                     }
                 }
             }
-        } else if (rakhely.isNotEmpty() && cikkszam.isNotEmpty() && isUpdate) {
+        } else if (rakhely.isNotEmpty() && cikkszam.isNotEmpty() && mennyiseg?.isNotEmpty()!! && isUpdate) {
+            leltarListener?.setProgressOn()
             CoroutineScope(IO).launch {
                 if (sql.updateData(bizszam, mennyiseg?.toDouble()!!, megjegyzes)) {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Sikeres frissítés")
                         leltarListener?.afterUpload()
+                        leltarListener?.setProgressOff()
                     }
                 } else {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Nem sikerült az elemet frissíteni")
+                        leltarListener?.setProgressOff()
                     }
                 }
             }
             isUpdate = false
+        } else {
+            if (rakhely.isEmpty()) {
+                leltarListener?.errorCode("A rakhely nem lehet üres")
+            } else if (cikkszam.isEmpty()) {
+                leltarListener?.errorCode("A cikkszám nem lehet üres")
+            } else {
+                leltarListener?.errorCode("A mennyiség nem lehet üres")
+            }
         }
     }
 
@@ -88,6 +102,7 @@ constructor(
         leltarListener?.setProgressOn()
         CoroutineScope(IO).launch {
             if (sql.isPolc(code)) {
+                leltarListener?.deleteRakhely()
                 warehouseID = bundle.getString("RAKKOD")!!
                 if (sql.isPolcOpen(code)) {
                     if (sql.hasPolcItems(code)) {
@@ -144,7 +159,7 @@ constructor(
     }
 
     fun cikkClikk(view: View) {
-        if(cikkszam.isNotEmpty()){
+        if (cikkszam.isNotEmpty()) {
             leltarListener?.setProgressOn()
             CoroutineScope(IO).launch {
                 if (sql.isCikk(cikkszam)) {

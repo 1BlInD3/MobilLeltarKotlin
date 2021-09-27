@@ -13,4 +13,5 @@ interface LeltarListener {
     fun afterUpload()
     fun showData(listener: UpdateInterface, code: String)
     fun tabSwitch()
+    fun deleteRakhely()
 }

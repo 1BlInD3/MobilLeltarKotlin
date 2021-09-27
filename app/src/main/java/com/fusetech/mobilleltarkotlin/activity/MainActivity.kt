@@ -2,6 +2,7 @@ package com.fusetech.mobilleltarkotlin.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fusetech.mobilleltarkotlin.R
@@ -124,7 +125,8 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
 
     override fun loadMenuFragment(hasRight: Boolean) {
         menuFragment = MenuFragment.newInstance(hasRight)
-        supportFragmentManager.beginTransaction().replace(R.id.container, menuFragment!!, "MENU").addToBackStack(null)
+        supportFragmentManager.beginTransaction().replace(R.id.container, menuFragment!!, "MENU")
+            .addToBackStack(null)
             .commit()
     }
 
@@ -204,6 +206,23 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     ) {
         val fragment = supportFragmentManager.findFragmentByTag("f0")
         (fragment as LeltarFragment).getData(cikkszam, meg1, meg2, qty, megjegyzes, bizszam)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (getFragment("MENU")) {
+            when (keyCode){
+                8 -> {
+                    loadLeltar()
+                }
+                9 -> {
+                    loadLekerdezes()
+                }
+                10 ->{
+                    finishAndRemoveTask()
+                }
+            }
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
     override fun tabSwitch() {

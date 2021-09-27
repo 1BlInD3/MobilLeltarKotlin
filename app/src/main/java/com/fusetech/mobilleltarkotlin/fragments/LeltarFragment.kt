@@ -159,6 +159,10 @@ class LeltarFragment : Fragment(), LeltarListener {
         mainMenuInteract.tabSwitch()
     }
 
+    override fun deleteRakhely() {
+        binding.rakhelyText.setText("")
+    }
+
     class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :
         InputFilter {
         private var mPattern: Pattern =
@@ -195,14 +199,19 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.mennyiseg?.isNotEmpty()!!) {
-            binding.megjegyzesText.requestFocus()
-        } else if (viewModel.cikkszam.isNotEmpty()) {
-            binding.cikkszamHeader.requestFocus()
-        } else if (viewModel.rakhely.isNotEmpty()) {
-            binding.cikkszamText.requestFocus()
-        } else {
-            binding.rakhelyText.requestFocus()
+        when {
+            viewModel.mennyiseg?.isNotEmpty()!! -> {
+                binding.megjegyzesText.requestFocus()
+            }
+            viewModel.cikkszam.isNotEmpty() -> {
+                binding.cikkszamHeader.requestFocus()
+            }
+            viewModel.rakhely.isNotEmpty() -> {
+                binding.cikkszamText.requestFocus()
+            }
+            else -> {
+                binding.rakhelyText.requestFocus()
+            }
         }
     }
 

@@ -70,6 +70,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
+        binding.itemRecycler.descendantFocusability = ViewGroup.FOCUS_AFTER_DESCENDANTS
         binding.tetelProgress.visibility = View.VISIBLE
         CoroutineScope(IO).launch {
             Log.d(TAG, "1")
@@ -95,6 +96,11 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.itemRecycler.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
     }
 
     override fun onAttach(context: Context) {
