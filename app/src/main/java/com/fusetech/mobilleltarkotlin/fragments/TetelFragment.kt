@@ -33,12 +33,14 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
 
     interface ChangeTab {
         fun changeTab()
-        fun setData(cikkszam: String,
-                    meg1: String,
-                    meg2: String?,
-                    qty: Double,
-                    megjegyzes: String?,
-                    bizszam: Int)
+        fun setData(
+            cikkszam: String,
+            meg1: String,
+            meg2: String?,
+            qty: Double,
+            megjegyzes: String?,
+            bizszam: Int
+        )
     }
 
     override fun onCreateView(
@@ -59,12 +61,14 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
 
     override fun onCurrentClick(position: Int) {
         changeTab.changeTab()
-        changeTab.setData(viewModel.getItems().value!![position].cikkszam,
+        changeTab.setData(
+            viewModel.getItems().value!![position].cikkszam,
             viewModel.getItems().value!![position].megnevezes1,
             viewModel.getItems().value!![position].megnevezes2,
             viewModel.getItems().value!![position].mennyiseg,
             viewModel.getItems().value!![position].megjegyzes,
-            viewModel.getItems().value!![position].bizszam)
+            viewModel.getItems().value!![position].bizszam
+        )
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -78,15 +82,21 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
             if (rakthely.isNotEmpty()) {
                 viewModel.onListLoad()
                 Log.d(TAG, "2")
+                try {
                 CoroutineScope(Main).launch {
-                    initRecycler()
+                        initRecycler()
+                        binding.tetelProgress.visibility = View.GONE
+                        Log.d(TAG, "3")
+                        viewModel.getItems().observe(viewLifecycleOwner, {
+                            binding.itemRecycler.adapter?.notifyDataSetChanged()
+                            Log.d(TAG, "4")
+                        })
+                    }
+                }catch (e: Exception) {
+                    Log.d(TAG, "onResume: Nem tudja betölteni a recyclert")
                     binding.tetelProgress.visibility = View.GONE
-                    Log.d(TAG, "3")
-                    viewModel.getItems().observe(viewLifecycleOwner, {
-                        binding.itemRecycler.adapter?.notifyDataSetChanged()
-                        Log.d(TAG, "4")
-                    })
                 }
+
             } else {
                 CoroutineScope(Main).launch {
                     binding.tetelProgress.visibility = View.VISIBLE

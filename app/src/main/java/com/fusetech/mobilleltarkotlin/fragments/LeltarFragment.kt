@@ -247,5 +247,4 @@ class LeltarFragment : Fragment(), LeltarListener {
             throw Exception("Must implement")
         }
     }
-
 }

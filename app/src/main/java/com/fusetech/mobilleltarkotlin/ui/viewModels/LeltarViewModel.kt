@@ -34,6 +34,10 @@ constructor(
     var isUpdate = false
     var bizszam = 0
 
+    fun raktarClick(view: View){
+        leltarListener?.deleteRakhely()
+    }
+
     fun buttonClick(view: View) {
         leltarListener?.setProgressOn()
         if (rakhely.isNotEmpty()) {

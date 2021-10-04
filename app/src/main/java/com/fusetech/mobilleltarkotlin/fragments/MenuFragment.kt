@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.databinding.FragmentMenuBinding
-import com.fusetech.mobilleltarkotlin.showMe
 import com.fusetech.mobilleltarkotlin.ui.interfaces.MenuLstener
 import com.fusetech.mobilleltarkotlin.ui.viewModels.MenuViewModel
 
@@ -54,20 +53,24 @@ class MenuFragment : Fragment(), MenuLstener {
                 }
             }
     }
-
     override fun loadLeltar() {
-        //showMe("Leltár",requireContext())
         withMainActivity.loadLeltar()
     }
     override fun loadLekerdezes() {
-       // showMe("Lekerdezes",requireContext())
         withMainActivity.loadLekerdezes()
     }
     override fun loadKilep() {
-        showMe("Kilep",requireContext())
         withMainActivity.loadKilepes()
     }
-
+    fun leltarFocus(){
+        binding.leltarButton.requestFocus()
+    }
+    fun lekerdezesFocus(){
+        binding.lekerdezesButton.requestFocus()
+    }
+    fun kilepesFocus(){
+        binding.kilepButton.requestFocus()
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         withMainActivity = if(context is WithMainActivity){
@@ -75,17 +78,5 @@ class MenuFragment : Fragment(), MenuLstener {
         }else{
             throw RuntimeException(context.toString() + "must implement")
         }
-       /* OnBackPressedCallback callback = new OnBackPressedCallback(
-            true // default to enabled
-        ) {
-            Override
-                    public void handleOnBackPressed() {
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(
-            this, // LifecycleOwner
-            callback);*/
     }
-
-
 }

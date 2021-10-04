@@ -212,12 +212,18 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         if (getFragment("MENU")) {
             when (keyCode){
                 8 -> {
+                    val fragment = supportFragmentManager.findFragmentByTag("MENU")
+                    (fragment as MenuFragment).leltarFocus()
                     loadLeltar()
                 }
                 9 -> {
+                    val fragment = supportFragmentManager.findFragmentByTag("MENU")
+                    (fragment as MenuFragment).lekerdezesFocus()
                     loadLekerdezes()
                 }
                 10 ->{
+                    val fragment = supportFragmentManager.findFragmentByTag("MENU")
+                    (fragment as MenuFragment).kilepesFocus()
                     finishAndRemoveTask()
                 }
             }
