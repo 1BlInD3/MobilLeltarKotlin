@@ -17,10 +17,10 @@ constructor(val sql: Sql): ViewModel() {
     fun getItems(): LiveData<ArrayList<RaktarAdat>>{
         return adatok
     }
-    fun onSeleced(){
-
-    }
     fun onListLoad(){
            adatok =  sql.loadBinItems(MainActivity.rakthely)
+    }
+    fun hasData():Boolean{
+        return sql.hasPolcItemsInAdat(MainActivity.rakthely)
     }
 }

@@ -77,9 +77,10 @@ class Sql {
         try{
             connection = DriverManager.getConnection(read_connect)
             val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
+            //val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[leltar].[dbo].[Leltaradat] WHERE RaktHely = ? ORDER BY Bizszam")
             statement.setString(1,code)
             val resultSet = statement.executeQuery()
-            if(resultSet.next()){
+            if(resultSet.next() && resultSet.getString("Cikkszam").isNotEmpty()){
                 hasItems = true
             }
         }catch (e: Exception){
@@ -306,5 +307,14 @@ class Sql {
             return update
         }
         return update
+    }
+    fun hasPolcItemsInAdat(code: String): Boolean{
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        val connection: Connection = DriverManager.getConnection(read_connect)
+            //val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
+            val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Leltaradat] WHERE RaktHely = ? ORDER BY Bizszam")
+            statement.setString(1,code)
+            val resultSet = statement.executeQuery()
+            return (resultSet.next() && resultSet.getString("Cikkszam").isNotEmpty())
     }
 }

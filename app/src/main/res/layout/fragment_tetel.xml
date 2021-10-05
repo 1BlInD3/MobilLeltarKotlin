@@ -22,7 +22,8 @@
                 android:layout_height="match_parent"
                 tools:context=".fragments.TetelFragment"
                 android:focusable="false"
-                android:focusableInTouchMode="false">
+                android:focusableInTouchMode="false"
+                android:background="@color/pocakszin2">
 
 
                 <RelativeLayout

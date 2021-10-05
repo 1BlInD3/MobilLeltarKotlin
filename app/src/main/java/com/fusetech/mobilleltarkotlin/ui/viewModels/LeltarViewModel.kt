@@ -1,5 +1,6 @@
 package com.fusetech.mobilleltarkotlin.ui.viewModels
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.fusetech.mobilleltarkotlin.activity.MainActivity
@@ -14,6 +15,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "LeltarViewModel"
 @HiltViewModel
 class LeltarViewModel
 @Inject
@@ -34,7 +36,7 @@ constructor(
     var isUpdate = false
     var bizszam = 0
 
-    fun raktarClick(view: View){
+    fun raktarClick(view: View) {
         leltarListener?.deleteRakhely()
     }
 
@@ -105,7 +107,7 @@ constructor(
         bundle.clear()
         leltarListener?.setProgressOn()
         CoroutineScope(IO).launch {
-            if (sql.isPolc(code)) {
+            if (sql.isPolc(code) && rakhely.isEmpty()) {
                 leltarListener?.deleteRakhely()
                 warehouseID = bundle.getString("RAKKOD")!!
                 if (sql.isPolcOpen(code)) {
@@ -118,10 +120,12 @@ constructor(
                             leltarListener?.tabSwitch()
                         }
                     } else {
-                        leltarListener?.setRaktarText(code)
-                        leltarListener?.setProgressOff()
-                        leltarListener?.raktarAdat(bundle.getString("RAK")!!)
-                        leltarListener?.errorCode("A $code polc meg van kezdve, jelenleg ezt a polcot leltározod $rakhely")
+                        CoroutineScope(Main).launch {
+                            leltarListener?.setRaktarText(code)
+                            leltarListener?.setProgressOff()
+                            leltarListener?.raktarAdat(bundle.getString("RAK")!!)
+                            leltarListener?.errorCode("A $code polc meg van kezdve, jelenleg ezt a polcot leltározod $rakhely")
+                        }
                     }
                 } else if (sql.isPolcEmpty(code)) {
                     CoroutineScope(Main).launch {
@@ -153,7 +157,19 @@ constructor(
                         bundle.getString("UNIT")!!
                     )
                 }
-            } else {
+            } else if(rakhely.isNotEmpty() && code.equals("EMPTY")){
+                if(sql.hasPolcItemsInAdat(rakhely)){
+                    CoroutineScope(Main).launch {
+                        Log.d(TAG, "cikkTextSet: Nem jó")
+                        leltarListener?.setProgressOff()
+                    }
+                }else{
+                    CoroutineScope(Main).launch {
+                        Log.d(TAG, "cikkTextSet: JÓ")
+                        leltarListener?.setProgressOff()
+                    }
+                }
+            }else {
                 CoroutineScope(Main).launch {
                     leltarListener?.errorCode("Egyik sem az")
                     leltarListener?.setProgressOff()

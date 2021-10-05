@@ -79,7 +79,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
         CoroutineScope(IO).launch {
             Log.d(TAG, "1")
             Log.d(TAG, "onResume: $rakthely")
-            if (rakthely.isNotEmpty()) {
+            if (rakthely.isNotEmpty() && viewModel.hasData()) {
                 try {
                 viewModel.onListLoad()
                 Log.d(TAG, "2")
@@ -103,6 +103,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
                     rakhelyInfo.clear()
                     binding.itemRecycler.adapter?.notifyDataSetChanged()
                     binding.tetelProgress.visibility = View.GONE
+                    Log.d(TAG, "onResume: else ág")
                 }
             }
         }
