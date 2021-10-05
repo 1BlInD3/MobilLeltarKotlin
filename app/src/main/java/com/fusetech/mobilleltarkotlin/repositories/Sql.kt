@@ -120,7 +120,7 @@ class Sql {
         return closed
     }
     @SuppressLint("SimpleDateFormat")
-    fun closePolcLeltar(code: String){
+    fun closePolcLeltar(code: String, status: Int){
         val connection: Connection
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {
@@ -128,7 +128,7 @@ class Sql {
             connection = DriverManager.getConnection(write_connect)
             val statement = connection.prepareStatement("UPDATE [leltar].[dbo].[LeltarRakhEll] SET DolgozoBef = ?, Statusz = ?, BefDatum = ? WHERE RaktHely = ?")
             statement.setString(1, dolgKod)
-            statement.setInt(2,2)
+            statement.setInt(2,status)
             statement.setString(3,date)
             statement.setString(4,code)
             statement.executeUpdate()

@@ -161,17 +161,21 @@ constructor(
                 if(sql.hasPolcItemsInAdat(rakhely)){
                     CoroutineScope(Main).launch {
                         Log.d(TAG, "cikkTextSet: Nem jó")
+                        leltarListener?.errorCode("Nem lehet üres, vannak rajta tételek")
                         leltarListener?.setProgressOff()
                     }
                 }else{
+                    sql.closePolcLeltar(rakhely,0)
                     CoroutineScope(Main).launch {
                         Log.d(TAG, "cikkTextSet: JÓ")
+                        leltarListener?.clearAll()
+                        leltarListener?.errorCode("A polc státusza üresre változott")
                         leltarListener?.setProgressOff()
                     }
                 }
             }else {
                 CoroutineScope(Main).launch {
-                    leltarListener?.errorCode("Egyik sem az")
+                    leltarListener?.errorCode("Cikket vigyél fel")
                     leltarListener?.setProgressOff()
                 }
             }
@@ -205,7 +209,7 @@ constructor(
 
     override fun update(code: String) {
         CoroutineScope(IO).launch {
-            sql.closePolcLeltar(code)
+            sql.closePolcLeltar(code,2)
             CoroutineScope(Main).launch {
                 leltarListener?.clearAll()
                 leltarListener?.errorCode("A $code polcot lezártam")
