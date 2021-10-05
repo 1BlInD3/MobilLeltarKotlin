@@ -14,4 +14,5 @@ interface LeltarListener {
     fun showData(listener: UpdateInterface, code: String)
     fun tabSwitch()
     fun deleteRakhely()
+    fun cikkSelect()
 }

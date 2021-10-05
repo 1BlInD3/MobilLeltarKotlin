@@ -163,6 +163,10 @@ class LeltarFragment : Fragment(), LeltarListener {
         binding.rakhelyText.setText("")
     }
 
+    override fun cikkSelect() {
+       binding.cikkszamText.selectAll()
+    }
+
     class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :
         InputFilter {
         private var mPattern: Pattern =

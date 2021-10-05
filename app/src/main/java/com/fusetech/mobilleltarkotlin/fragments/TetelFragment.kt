@@ -80,9 +80,9 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
             Log.d(TAG, "1")
             Log.d(TAG, "onResume: $rakthely")
             if (rakthely.isNotEmpty()) {
+                try {
                 viewModel.onListLoad()
                 Log.d(TAG, "2")
-                try {
                 CoroutineScope(Main).launch {
                         initRecycler()
                         binding.tetelProgress.visibility = View.GONE
@@ -93,7 +93,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
                         })
                     }
                 }catch (e: Exception) {
-                    Log.d(TAG, "onResume: Nem tudja betölteni a recyclert")
+                    Log.d(TAG, "onResume: Nem tudja betölteni a listát")
                     binding.tetelProgress.visibility = View.GONE
                 }
 

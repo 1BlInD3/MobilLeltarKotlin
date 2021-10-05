@@ -3,7 +3,6 @@ package com.fusetech.mobilleltarkotlin.repositories
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.fusetech.mobilleltarkotlin.activity.MainActivity
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.bundle
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.dolgKod
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakhelyInfo
@@ -25,7 +24,7 @@ class Sql {
         var hasRight = false
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver")
-            val connection = DriverManager.getConnection(MainActivity.read_connect)
+            val connection = DriverManager.getConnection(read_connect)
             val statement =
                 connection.prepareStatement("SELECT LeltarKuty_Jog as Jog FROM [Fusetech].[dbo].Jogok WHERE Pecset = ?")
             statement.setString(1, code)
@@ -41,7 +40,7 @@ class Sql {
         val connection: Connection
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {
-            connection = DriverManager.getConnection(MainActivity.read_connect)
+            connection = DriverManager.getConnection(read_connect)
             val statement =
                 connection.prepareStatement("SELECT WarehouseID, BinNumber, InternalName, BinDescript2 FROM [ScaCompDB].[dbo].VF_SC360300_StockBinNo left outer join [ScaCompDB].[dbo].VF_SC230300_WarehouseInfo ON WarehouseID = Warehouse where BinNumber = ?")
             statement.setString(1, code)
@@ -61,7 +60,7 @@ class Sql {
         val connection : Connection
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {
-            connection = DriverManager.getConnection(MainActivity.read_connect)
+            connection = DriverManager.getConnection(read_connect)
             val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[LeltarRakhEll] WHERE RaktHely = ? AND Statusz = 1")
             statement.setString(1,code)
             val resultSet = statement.executeQuery()
@@ -94,7 +93,7 @@ class Sql {
         val connection: Connection
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try{
-            connection = DriverManager.getConnection(MainActivity.read_connect)
+            connection = DriverManager.getConnection(read_connect)
             val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[LeltarRakhEll] WHERE RaktHely = ? AND Statusz = 0")
             statement.setString(1,code)
             val resultSet = statement.executeQuery()
@@ -109,7 +108,7 @@ class Sql {
         val connection: Connection
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try{
-            connection = DriverManager.getConnection(MainActivity.read_connect)
+            connection = DriverManager.getConnection(read_connect)
             val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[LeltarRakhEll] WHERE RaktHely = ? AND Statusz = 2")
             statement.setString(1,code)
             val resultSet = statement.executeQuery()
@@ -125,7 +124,7 @@ class Sql {
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {
             val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
-            connection = DriverManager.getConnection(MainActivity.write_connect)
+            connection = DriverManager.getConnection(write_connect)
             val statement = connection.prepareStatement("UPDATE [leltar].[dbo].[LeltarRakhEll] SET DolgozoBef = ?, Statusz = ?, BefDatum = ? WHERE RaktHely = ?")
             statement.setString(1, dolgKod)
             statement.setInt(2,2)
@@ -143,7 +142,7 @@ class Sql {
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try{
             val date = SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
-            connection = DriverManager.getConnection(MainActivity.write_connect)
+            connection = DriverManager.getConnection(write_connect)
             val statement = connection.prepareStatement("INSERT INTO [leltar].[dbo].[LeltarRakhEll] (RaktHely,DolgozoKezd,Statusz,KezdDatum) VALUES(?,?,?,?)")
             statement.setString(1,code)
             statement.setString(2, dolgKod)
@@ -163,7 +162,7 @@ class Sql {
         val connection: Connection
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {
-            connection = DriverManager.getConnection(MainActivity.read_connect)
+            connection = DriverManager.getConnection(read_connect)
             val statement =
                 connection.prepareStatement("SELECT SC33001 as [StockItem],SUM(SC33005) as [BalanceQty],SUM(SC33008) as [ReceivedQty],MAX(VF_SY240300_QTCategory.TextDescription) as QcCategory,MAX([SC01002]) as Description1,MAX([SC01003]) as Description2,MAX([SC01093]) as IntRem,MAX([SC01094]) as IntRem2,rtrim(MAX([Description])) as Unit ,MAX(WarehouseID)as WarehouseID,MAX(InternalName)as Warehouse\tFROM [ScaCompDB].[dbo].[VF_SC360300_StockBinNo] left outer join [ScaCompDB].[dbo].SC330300 on BinNumber = SC33004 left outer join [ScaCompDB].[dbo].[SC010300] on SC33001 = SC01001 left join [ScaCompDB].[dbo].[VF_SCUN0300_UnitCode] on SC01133 = UnitCode LEFT OUTER JOIN [ScaCompDB].[dbo].VF_SY240300_QTCategory ON  SC33038 = VF_SY240300_QTCategory.Key1 left outer join [ScaCompDB].[dbo].VF_SC230300_WarehouseInfo as wi ON wi.Warehouse = WarehouseID\twhere SC33005 > 0 and BinNumber= ? group by SC33001, SC33010")
             statement.setString(1, code)
@@ -196,7 +195,7 @@ class Sql {
         var cikk = false
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {
-            val connection = DriverManager.getConnection(MainActivity.read_connect)
+            val connection = DriverManager.getConnection(read_connect)
             val statement =
                 connection.prepareStatement("""SELECT SUM(SC33005) as [BalanceQty], MAX([SC33004])as BinNumber,MAX([ScaCompDB].[dbo].SC230300.SC23002) AS Warehouse, MAX(VF_SY240300_QTCategory.TextDescription) as QcCategory, MAX([SC01002]) as Description1, MAX([SC01003]) as Description2, MAX([SC01093]) as IntRem, MAX([Description]) as Unit, SC33001 as [StockItem] FROM [ScaCompDB].[dbo].[VF_SC360300_StockBinNo] left outer join [ScaCompDB].[dbo].SC330300 on BinNumber = SC33004 left outer join [ScaCompDB].[dbo].[SC010300] on SC33001 = SC01001 left join [ScaCompDB].[dbo].[VF_SCUN0300_UnitCode] on SC01133 = UnitCode LEFT OUTER JOIN [ScaCompDB].[dbo].SC230300 ON [ScaCompDB].[dbo].SC230300.SC23001 = [ScaCompDB].[dbo].SC330300.SC33002 LEFT OUTER JOIN [ScaCompDB].[dbo].VF_SY240300_QTCategory ON  SC33038 = VF_SY240300_QTCategory.Key1 where SC33005 > 0 and SC33001= ? group by SC33001, SC33004, SC33010, case when isnull(SC33038,'')='' then '00' else SC33038 end;""")
             statement.setString(1, code)
@@ -219,7 +218,7 @@ class Sql {
         val cikkItemList: ArrayList<CikkItems> = ArrayList()
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {
-            connection = DriverManager.getConnection(MainActivity.read_connect)
+            connection = DriverManager.getConnection(read_connect)
             val statement =
                 connection.prepareStatement("""SELECT SUM(SC33005) as [BalanceQty], MAX([SC33004])as BinNumber,MAX([ScaCompDB].[dbo].SC230300.SC23002) AS Warehouse, MAX(VF_SY240300_QTCategory.TextDescription) as QcCategory, MAX([SC01002]) as Description1, MAX([SC01003]) as Description2, MAX([SC01093]) as IntRem, MAX([Description]) as Unit, SC33001 as [StockItem] FROM [ScaCompDB].[dbo].[VF_SC360300_StockBinNo] left outer join [ScaCompDB].[dbo].SC330300 on BinNumber = SC33004 left outer join [ScaCompDB].[dbo].[SC010300] on SC33001 = SC01001 left join [ScaCompDB].[dbo].[VF_SCUN0300_UnitCode] on SC01133 = UnitCode LEFT OUTER JOIN [ScaCompDB].[dbo].SC230300 ON [ScaCompDB].[dbo].SC230300.SC23001 = [ScaCompDB].[dbo].SC330300.SC33002 LEFT OUTER JOIN [ScaCompDB].[dbo].VF_SY240300_QTCategory ON  SC33038 = VF_SY240300_QTCategory.Key1 where SC33005 > 0 and SC33001= ? group by SC33001, SC33004, SC33010, case when isnull(SC33038,'')='' then '00' else SC33038 end;""")
             statement.setString(1, code)
@@ -245,12 +244,11 @@ class Sql {
         return cikkList
     }
     fun loadBinItems(code: String): MutableLiveData<ArrayList<RaktarAdat>>{
-        val connection: Connection
         val myData = MutableLiveData<ArrayList<RaktarAdat>>()
         rakhelyInfo.clear()
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
-        try{
-            connection = DriverManager.getConnection(MainActivity.read_connect)
+       // try{
+        val connection: Connection = DriverManager.getConnection(read_connect)
             val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
             statement.setString(1,code)
             val resultSet = statement.executeQuery()
@@ -262,9 +260,9 @@ class Sql {
                 }while(resultSet.next())
                myData.postValue(rakhelyInfo)
             }
-        }catch (e: Exception){
-            Log.d(TAG, "loadBinItems: $e")
-        }
+       // }catch (e: Exception){
+       //     Log.d(TAG, "loadBinItems: $e")
+       // }
         return myData
     }
     fun insertData(cikk: String, mennyiseg: Double, dolgKod: String, raktar: String, rakhely: String, megjegyzes: String?): Boolean{
@@ -272,7 +270,7 @@ class Sql {
         var insert = false
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
         try {
-            connection = DriverManager.getConnection(MainActivity.write_connect)
+            connection = DriverManager.getConnection(write_connect)
             val statement = connection.prepareStatement("INSERT INTO [leltar].[dbo].[Leltaradat] (Cikkszam,Mennyiseg,Dolgozo,Raktar,RaktHely,Megjegyzes,Nyomtatva,Status,EllStatus) VALUES (?,?,?,?,?,?,?,?,?)")
             statement.setString(1,cikk)
             statement.setDouble(2,mennyiseg)

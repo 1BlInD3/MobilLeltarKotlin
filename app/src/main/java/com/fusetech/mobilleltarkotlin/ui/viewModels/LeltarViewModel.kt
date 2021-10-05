@@ -179,6 +179,7 @@ constructor(
                 } else {
                     CoroutineScope(Main).launch {
                         leltarListener?.errorCode("Nem cikk")
+                        leltarListener?.cikkSelect()
                         leltarListener?.setProgressOff()
                     }
                 }
