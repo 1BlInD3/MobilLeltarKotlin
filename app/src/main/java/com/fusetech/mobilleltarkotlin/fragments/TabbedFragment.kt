@@ -33,6 +33,7 @@ class TabbedFragment : Fragment() {
         val viewPagerAdapter = ViewPagerAdapter(requireActivity())
         binding.mViewPager.adapter = viewPagerAdapter
         binding.tabbedLayout.tabGravity = TabLayout.GRAVITY_FILL
+        binding.tabbedLayout.descendantFocusability = ViewGroup.FOCUS_AFTER_DESCENDANTS
         val list : ArrayList<String> = ArrayList()
         list.add("Leltár")
         list.add("Tételek")

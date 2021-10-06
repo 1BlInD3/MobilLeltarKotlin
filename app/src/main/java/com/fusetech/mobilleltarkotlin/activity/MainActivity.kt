@@ -30,7 +30,13 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     * Az új rakhely lenoymása után megkérdezi lezárom-e, ha igen akkor a LeltarRakhEll 2es státusz (DolgozoBef,BefDatum, Statusz)
     * Ha a cikk üres akkor 0 státsuz a fejbe
     *
-    *
+    * honda e 1:35 sebességkorlátozás
+    * hyundai ioniq 1:09
+    * model3 0:33
+    * zoé 1:19
+    * e-golf 1:55 sebességkoráltozás
+    * id3 1:11
+    * peugeout 2008 1:15
     *
     *
     *
