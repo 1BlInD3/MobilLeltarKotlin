@@ -15,4 +15,6 @@ interface LeltarListener {
     fun tabSwitch()
     fun deleteRakhely()
     fun cikkSelect()
+    fun setNewBinOn()
+    fun setNewBinOff()
 }

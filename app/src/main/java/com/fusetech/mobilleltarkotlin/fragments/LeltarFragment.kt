@@ -169,6 +169,14 @@ class LeltarFragment : Fragment(), LeltarListener {
        binding.cikkszamText.selectAll()
     }
 
+    override fun setNewBinOn() {
+        binding.rakhelyButton.visibility = View.VISIBLE
+    }
+
+    override fun setNewBinOff() {
+        binding.rakhelyButton.visibility = View.GONE
+    }
+
     class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :
         InputFilter {
         private var mPattern: Pattern =

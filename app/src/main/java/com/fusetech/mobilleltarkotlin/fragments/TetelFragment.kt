@@ -96,6 +96,9 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
                             Log.d(TAG, "4")
                         })
                     }
+                    if(!binding.itemRecycler.hasFocus()){
+                        binding.itemRecycler.requestFocus()
+                    }
                 }catch (e: Exception) {
                     Log.d(TAG, "onResume: Nem tudja betölteni a listát $e")
                     CoroutineScope(Main).launch {

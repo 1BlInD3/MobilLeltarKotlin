@@ -67,6 +67,7 @@ constructor(
                         leltarListener?.errorCode("Sikeres feltöltés")
                         leltarListener?.afterUpload()
                         leltarListener?.setProgressOff()
+                        leltarListener?.setNewBinOn()
                     }
                 } else {
                     CoroutineScope(Main).launch {
@@ -83,6 +84,7 @@ constructor(
                         leltarListener?.errorCode("Sikeres frissítés")
                         leltarListener?.afterUpload()
                         leltarListener?.setProgressOff()
+                        leltarListener?.setNewBinOn()
                     }
                 } else {
                     CoroutineScope(Main).launch {
@@ -93,12 +95,16 @@ constructor(
             }
             isUpdate = false
         } else {
-            if (rakhely.isEmpty()) {
-                leltarListener?.errorCode("A rakhely nem lehet üres")
-            } else if (cikkszam.isEmpty()) {
-                leltarListener?.errorCode("A cikkszám nem lehet üres")
-            } else {
-                leltarListener?.errorCode("A mennyiség nem lehet üres")
+            when {
+                rakhely.isEmpty() -> {
+                    leltarListener?.errorCode("A rakhely nem lehet üres")
+                }
+                cikkszam.isEmpty() -> {
+                    leltarListener?.errorCode("A cikkszám nem lehet üres")
+                }
+                else -> {
+                    leltarListener?.errorCode("A mennyiség nem lehet üres")
+                }
             }
         }
     }
@@ -156,8 +162,9 @@ constructor(
                         bundle.getString("MEG2"),
                         bundle.getString("UNIT")!!
                     )
+                    leltarListener?.setNewBinOff()
                 }
-            } else if(rakhely.isNotEmpty() && code.equals("EMPTY")){
+            } else if(rakhely.isNotEmpty() && code == "EMPTY"){
                 if(sql.hasPolcItemsInAdat(rakhely)){
                     CoroutineScope(Main).launch {
                         Log.d(TAG, "cikkTextSet: Nem jó")
@@ -195,6 +202,7 @@ constructor(
                             bundle.getString("MEG2"),
                             bundle.getString("UNIT")!!
                         )
+                        leltarListener?.setNewBinOff()
                     }
                 } else {
                     CoroutineScope(Main).launch {

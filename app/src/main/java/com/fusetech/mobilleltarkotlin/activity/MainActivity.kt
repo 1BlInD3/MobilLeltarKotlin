@@ -215,7 +215,27 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         (fragment as LeltarFragment).getData(cikkszam, meg1, meg2, qty, megjegyzes, bizszam)
     }
 
+    override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
+        Log.d("MainActivity", "onKeyLongPress: ")
+        if(getFragment("TABBED")){
+            val fragment = supportFragmentManager.findFragmentByTag("TABBED")
+            when(event?.keyCode){
+                22->{
+                    (fragment as TabbedFragment).changeTetelTab()
+                    return true
+                }
+                21->{
+                    (fragment as TabbedFragment).changeTab()
+                }
+            }
+        }
+        return super.onKeyLongPress(keyCode, event)
+    }
+
+
+
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        Log.d("MainActivity", "onKeyPress: ")
         if (getFragment("MENU")) {
             when (keyCode){
                 8 -> {
@@ -235,7 +255,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                 }
             }
         }
-        if (getFragment("f1")){
+        if (getFragment("f1")){  //22 21
             when(keyCode){
                 61 -> {
                     if(selectFocus == 1){
@@ -249,9 +269,27 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         return super.onKeyUp(keyCode, event)
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        Log.d("MainActivity", "onKeyDown: ")
+        if(getFragment("TABBED")){
+            val fragment = supportFragmentManager.findFragmentByTag("TABBED")
+            when(keyCode){
+                22->{
+                    event?.startTracking()
+                    return true
+                    //(fragment as TabbedFragment).changeTetelTab()
+                }
+                21->{
+                    event?.startTracking()
+                    return true
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
     override fun tabSwitch() {
         val fragment = supportFragmentManager.findFragmentByTag("TABBED")
         (fragment as TabbedFragment).changeTetelTab()
     }
-
 }
