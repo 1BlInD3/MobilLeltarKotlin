@@ -226,7 +226,7 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     fun getData(
         cikkszam: String,
-        meg1: String,
+        meg1: String?,
         meg2: String?,
         qty: Double,
         megjegyzes: String?,

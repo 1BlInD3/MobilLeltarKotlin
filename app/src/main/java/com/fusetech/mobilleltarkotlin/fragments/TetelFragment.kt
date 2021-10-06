@@ -36,7 +36,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
         fun changeTab()
         fun setData(
             cikkszam: String,
-            meg1: String,
+            meg1: String?,
             meg2: String?,
             qty: Double,
             megjegyzes: String?,
@@ -97,8 +97,10 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
                         })
                     }
                 }catch (e: Exception) {
-                    Log.d(TAG, "onResume: Nem tudja betölteni a listát")
-                    binding.tetelProgress.visibility = View.GONE
+                    Log.d(TAG, "onResume: Nem tudja betölteni a listát $e")
+                    CoroutineScope(Main).launch {
+                        binding.tetelProgress.visibility = View.GONE
+                    }
                 }
 
             } else {
