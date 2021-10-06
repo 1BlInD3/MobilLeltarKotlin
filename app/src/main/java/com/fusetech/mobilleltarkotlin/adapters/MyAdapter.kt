@@ -23,12 +23,5 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
         }
     }
     override fun getItemCount(): Int = 2
-
-    fun addNames(): ArrayList<String>{
-        val list :ArrayList<String> = ArrayList()
-        list.add("Leltár")
-        list.add("Tételek")
-       return list
-    }
 }
 

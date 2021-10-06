@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakhelyInfo
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakthely
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.selectFocus
 import com.fusetech.mobilleltarkotlin.adapters.RaktarAdatAdapter
 import com.fusetech.mobilleltarkotlin.databinding.FragmentTetelBinding
 import com.fusetech.mobilleltarkotlin.ui.viewModels.TetelViewModel
@@ -57,6 +58,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
         binding.itemRecycler.adapter = RaktarAdatAdapter(viewModel.getItems().value!!, this)
         binding.itemRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.itemRecycler.setHasFixedSize(true)
+        binding.itemRecycler.requestFocus()
     }
 
     override fun onCurrentClick(position: Int) {
@@ -74,6 +76,8 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
+        selectFocus = 1
+        Log.d("RSM", "onResume: TETEL")
         binding.itemRecycler.descendantFocusability = ViewGroup.FOCUS_AFTER_DESCENDANTS
         binding.tetelProgress.visibility = View.VISIBLE
         CoroutineScope(IO).launch {
@@ -121,5 +125,8 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
         } else {
             throw Exception("Must implement")
         }
+    }
+    fun focusRecycler(){
+        binding.itemRecycler.requestFocus()
     }
 }

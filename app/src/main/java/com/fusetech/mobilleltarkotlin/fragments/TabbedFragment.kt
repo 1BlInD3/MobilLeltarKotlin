@@ -1,6 +1,7 @@
 package com.fusetech.mobilleltarkotlin.fragments
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -33,7 +34,9 @@ class TabbedFragment : Fragment() {
         val viewPagerAdapter = ViewPagerAdapter(requireActivity())
         binding.mViewPager.adapter = viewPagerAdapter
         binding.tabbedLayout.tabGravity = TabLayout.GRAVITY_FILL
-        binding.tabbedLayout.descendantFocusability = ViewGroup.FOCUS_AFTER_DESCENDANTS
+       // binding.tabbedLayout.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+       // binding.tabbedLayout.clearFocus()
+        //binding.mViewPager.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
         val list : ArrayList<String> = ArrayList()
         list.add("Leltár")
         list.add("Tételek")
@@ -56,6 +59,31 @@ class TabbedFragment : Fragment() {
                 Log.d(TAG, "onTabReselected: ${tab?.position!!}")
             }
         })
+
+
+        Thread(Runnable {
+            var oldId = -1
+            while (true) {
+                val newView: View? = getView()?.findFocus()
+                if (newView != null && newView.id != oldId) {
+                    oldId = newView.id
+                    var idName: String = try {
+                        resources.getResourceEntryName(newView.id)
+                    } catch (e: Resources.NotFoundException) {
+                        newView.id.toString()
+                    }
+                    Log.i(TAG, "Focused Id: \t" + idName + "\tClass: \t" + newView.javaClass)
+                }
+                try {
+                    Thread.sleep(100)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
+        }).start()
+
+
+
         return binding.root
     }
 
@@ -72,5 +100,13 @@ class TabbedFragment : Fragment() {
     }
     fun changeTetelTab(){
         binding.mViewPager.currentItem = 1
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.mViewPager.clearFocus()
+        binding.tabbedLayout.clearFocus()
+        //binding.a.clearFocus()
+        //binding.b.clearFocus()
     }
 }

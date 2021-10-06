@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         var rakhelyInfo: ArrayList<RaktarAdat> = ArrayList()//MutableLiveData<ArrayList<RaktarAdat>>
         var dolgKod = ""
         var rakthely = ""
+        var selectFocus = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -231,6 +232,17 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                     val fragment = supportFragmentManager.findFragmentByTag("MENU")
                     (fragment as MenuFragment).kilepesFocus()
                     finishAndRemoveTask()
+                }
+            }
+        }
+        if (getFragment("f1")){
+            when(keyCode){
+                61 -> {
+                    if(selectFocus == 1){
+                        val fragment = supportFragmentManager.findFragmentByTag("f1")
+                        (fragment as TetelFragment).focusRecycler()
+                        selectFocus = 0
+                    }
                 }
             }
         }

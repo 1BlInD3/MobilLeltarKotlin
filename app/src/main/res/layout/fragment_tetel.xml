@@ -13,16 +13,12 @@
             android:id="@+id/horizontalScrollView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 tools:context=".fragments.TetelFragment"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 android:background="@color/pocakszin2">
 
 
@@ -30,24 +26,20 @@
                     android:id="@+id/relativeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:background="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/black"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false">
+                        android:backgroundTint="@color/black">
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="1dp">
 
@@ -65,8 +57,7 @@
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="102dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="1dp">
 
@@ -84,8 +75,7 @@
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="204dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="2dp">
 
@@ -103,8 +93,7 @@
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="306dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="2dp">
 
@@ -122,8 +111,7 @@
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="408dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="2dp">
 
@@ -141,8 +129,7 @@
                             android:layout_width="100dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="510dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="2dp">
 
@@ -165,9 +152,7 @@
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"/>
+                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout"/>
 
                 <ProgressBar
                     android:id="@+id/tetelProgress"

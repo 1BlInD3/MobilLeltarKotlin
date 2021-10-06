@@ -11,6 +11,7 @@
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tabbedConstraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.TabbedFragment"
@@ -24,36 +25,33 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             app:tabIndicator="@null"
             app:tabBackground="@drawable/background_selector_tab"
-            app:tabSelectedTextColor="@color/white">
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/black">
 
             <com.google.android.material.tabs.TabItem
+                android:id="@+id/a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 android:text="Leltár" />
 
             <com.google.android.material.tabs.TabItem
+                android:id="@+id/b"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 android:text="Tételek" />
 
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/mViewPager"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabbedLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>

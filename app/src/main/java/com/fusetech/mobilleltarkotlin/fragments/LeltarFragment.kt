@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakhelyInfo
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.selectFocus
 import com.fusetech.mobilleltarkotlin.closeBin
 import com.fusetech.mobilleltarkotlin.databinding.FragmentLeltarBinding
 import com.fusetech.mobilleltarkotlin.showMe
@@ -39,9 +41,9 @@ class LeltarFragment : Fragment(), LeltarListener {
         binding.viewModel = viewModel
         viewModel.leltarListener = this
         binding.progressBar2.visibility = View.GONE
-        binding.rakhelyText.isFocusable = true
+       /* binding.rakhelyText.isFocusable = true
         binding.rakhelyText.isFocusableInTouchMode = true
-        binding.rakhelyText.requestFocus()
+        binding.rakhelyText.requestFocus()*/
         binding.cikkszamHeader.filters = arrayOf<InputFilter>(
             DecimalDigitsInputFilter(9, 2)
         )
@@ -203,6 +205,8 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     override fun onResume() {
         super.onResume()
+        selectFocus = 1
+        Log.d("RSM", "onResume: LELTAR")
         when {
             viewModel.mennyiseg?.isNotEmpty()!! -> {
                 binding.megjegyzesText.requestFocus()
@@ -214,6 +218,7 @@ class LeltarFragment : Fragment(), LeltarListener {
                 binding.cikkszamText.requestFocus()
             }
             else -> {
+                binding.leltarConst.descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
                 binding.rakhelyText.requestFocus()
             }
         }
