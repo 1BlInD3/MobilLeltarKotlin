@@ -37,7 +37,7 @@
                         android:backgroundTint="@color/black">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="100dp"
+                            android:layout_width="110dp"
                             android:layout_height="30dp"
                             android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
@@ -45,7 +45,8 @@
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:paddingTop="3dp"
                                 android:maxLines="1"
                                 android:text="Cikkszám"
                                 android:textAlignment="center"
@@ -54,16 +55,17 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="100dp"
+                            android:layout_width="120dp"
                             android:layout_height="30dp"
-                            android:layout_marginLeft="102dp"
+                            android:layout_marginLeft="112dp"
                             android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="1dp">
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:paddingTop="3dp"
                                 android:maxLines="1"
                                 android:text="Megnevezés1"
                                 android:textAlignment="center"
@@ -74,33 +76,16 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginLeft="204dp"
+                            android:layout_marginLeft="234dp"
                             android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="2dp">
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="Megnevezés2"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="100dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="306dp"
-                            android:layout_marginBottom="1dp"
-                            app:cardBackgroundColor="@color/pocakszin4"
-                            app:cardCornerRadius="2dp">
-
-                            <TextView
-                                android:layout_width="100dp"
                                 android:layout_height="match_parent"
                                 android:maxLines="1"
+                                android:paddingTop="3dp"
                                 android:text="Mennyiség"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/white"
@@ -110,7 +95,8 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginLeft="408dp"
+                            android:paddingTop="3dp"
+                            android:layout_marginLeft="336dp"
                             android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="2dp">
@@ -119,6 +105,26 @@
                                 android:layout_width="100dp"
                                 android:layout_height="match_parent"
                                 android:maxLines="1"
+                                android:paddingTop="3dp"
+                                android:text="Megnevezés2"
+                                android:textAlignment="center"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="100dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="438dp"
+                            android:layout_marginBottom="1dp"
+                            app:cardBackgroundColor="@color/pocakszin4"
+                            app:cardCornerRadius="2dp">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="match_parent"
+                                android:maxLines="1"
+                                android:paddingTop="3dp"
                                 android:text="Megjegyzés"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/white"
@@ -128,7 +134,7 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginLeft="510dp"
+                            android:layout_marginLeft="540dp"
                             android:layout_marginBottom="1dp"
                             app:cardBackgroundColor="@color/pocakszin4"
                             app:cardCornerRadius="2dp">
@@ -137,6 +143,7 @@
                                 android:layout_width="100dp"
                                 android:layout_height="match_parent"
                                 android:maxLines="1"
+                                android:paddingTop="3dp"
                                 android:text="Bizszam"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/white"

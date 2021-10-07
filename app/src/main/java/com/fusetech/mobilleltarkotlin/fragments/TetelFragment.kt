@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 private const val TAG = "TetelFragment"
 
@@ -38,7 +39,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
             cikkszam: String,
             meg1: String?,
             meg2: String?,
-            qty: Double,
+            qty: BigDecimal,
             megjegyzes: String?,
             bizszam: Int
         )

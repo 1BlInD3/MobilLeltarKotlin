@@ -257,7 +257,7 @@ class Sql {
                 Log.d(TAG, "loadBinItems: Üres")
             }else{
                 do {
-                    rakhelyInfo.add(RaktarAdat(resultSet.getString("Cikkszam"),resultSet.getString("Description1"),resultSet.getString("Description2"),resultSet.getDouble("Mennyiseg"),resultSet.getString("Megjegyzes"),resultSet.getInt("Bizszam")))
+                    rakhelyInfo.add(RaktarAdat(resultSet.getString("Cikkszam"),resultSet.getString("Description1"),resultSet.getString("Description2"),resultSet.getBigDecimal("Mennyiseg"),resultSet.getString("Megjegyzes"),resultSet.getInt("Bizszam")))
                 }while(resultSet.next())
                myData.postValue(rakhelyInfo)
             }

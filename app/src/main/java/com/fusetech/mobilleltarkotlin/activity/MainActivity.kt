@@ -11,6 +11,7 @@ import com.fusetech.mobilleltarkotlin.fragments.*
 import com.fusetech.mobilleltarkotlin.showMe
 import com.honeywell.aidc.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.math.BigDecimal
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
@@ -196,7 +197,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         cikkszam: String,
         meg1: String?,
         meg2: String?,
-        qty: Double,
+        qty: BigDecimal,
         megjegyzes: String?,
         bizszam: Int
     ) {

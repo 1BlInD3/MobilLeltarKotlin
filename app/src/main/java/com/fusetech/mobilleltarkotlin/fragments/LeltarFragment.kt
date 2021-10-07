@@ -21,6 +21,7 @@ import com.fusetech.mobilleltarkotlin.ui.interfaces.LeltarListener
 import com.fusetech.mobilleltarkotlin.ui.interfaces.UpdateInterface
 import com.fusetech.mobilleltarkotlin.ui.viewModels.LeltarViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.math.BigDecimal
 import java.util.regex.Pattern
 
 @AndroidEntryPoint
@@ -77,7 +78,7 @@ class LeltarFragment : Fragment(), LeltarListener {
             binding.cikkszamHeader.isFocusableInTouchMode = true
             binding.cikkszamHeader.requestFocus()
         } else {
-            showMe("Raktárt vigyél fel előbb", requireContext())
+            showMe("Először egy polcot olvass le", requireContext())
         }
     }
 
@@ -123,7 +124,7 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     }
 
-    override fun mennyisegListener(quantity: Double) {
+    override fun mennyisegListener(quantity: BigDecimal) {
         if (binding.cikkszamHeader.isFocusable && binding.cikkszamHeader.isFocusableInTouchMode) {
             binding.cikkszamHeader.setText(quantity.toString().trim())
             binding.cikkszamHeader.isFocusable = false
@@ -131,6 +132,7 @@ class LeltarFragment : Fragment(), LeltarListener {
             binding.megjegyzesText.isFocusable = true
             binding.megjegyzesText.isFocusableInTouchMode = true
             binding.megjegyzesText.requestFocus()
+            binding.megjegyzesText.setSelection(binding.megjegyzesText.text.trim().length)
         }
     }
 
@@ -233,7 +235,7 @@ class LeltarFragment : Fragment(), LeltarListener {
         cikkszam: String,
         meg1: String?,
         meg2: String?,
-        qty: Double,
+        qty: BigDecimal,
         megjegyzes: String?,
         bizszam: Int
     ) {
