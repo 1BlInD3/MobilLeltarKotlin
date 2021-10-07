@@ -131,7 +131,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
             throw Exception("Must implement")
         }
     }
-    fun focusRecycler(){
+    /*fun focusRecycler(){
         binding.itemRecycler.requestFocus()
-    }
+    }*/
 }

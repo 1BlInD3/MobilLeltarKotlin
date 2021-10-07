@@ -29,17 +29,6 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     * Ahogy felvettem a ratárra egy cikket akkor beír a LeltarRakhEll-be 1es státuszt kap. A tételt felveszi a Leltaradat táblába 1es státusszal (RaktHely,DolgozoKezd,Statusz,KezdDatum)
     * Az új rakhely lenoymása után megkérdezi lezárom-e, ha igen akkor a LeltarRakhEll 2es státusz (DolgozoBef,BefDatum, Statusz)
     * Ha a cikk üres akkor 0 státsuz a fejbe
-    *
-    * honda e 1:35 sebességkorlátozás
-    * hyundai ioniq 1:09
-    * model3 0:33
-    * zoé 1:19
-    * e-golf 1:55 sebességkoráltozás
-    * id3 1:11
-    * peugeout 2008 1:15
-    *
-    *
-    *
     * */
     companion object {
         const val read_connect =
@@ -222,7 +211,6 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
             when(event?.keyCode){
                 22->{
                     (fragment as TabbedFragment).changeTetelTab()
-                    return true
                 }
                 21->{
                     (fragment as TabbedFragment).changeTab()
@@ -231,8 +219,6 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         }
         return super.onKeyLongPress(keyCode, event)
     }
-
-
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
         Log.d("MainActivity", "onKeyPress: ")
@@ -255,7 +241,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                 }
             }
         }
-        if (getFragment("f1")){  //22 21
+        /*if (getFragment("f1")){  //22 21
             when(keyCode){
                 61 -> {
                     if(selectFocus == 1){
@@ -265,14 +251,13 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                     }
                 }
             }
-        }
+        }*/
         return super.onKeyUp(keyCode, event)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         Log.d("MainActivity", "onKeyDown: ")
         if(getFragment("TABBED")){
-            val fragment = supportFragmentManager.findFragmentByTag("TABBED")
             when(keyCode){
                 22->{
                     event?.startTracking()

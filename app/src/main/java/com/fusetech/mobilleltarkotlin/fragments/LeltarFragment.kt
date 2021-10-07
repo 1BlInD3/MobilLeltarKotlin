@@ -41,9 +41,6 @@ class LeltarFragment : Fragment(), LeltarListener {
         binding.viewModel = viewModel
         viewModel.leltarListener = this
         binding.progressBar2.visibility = View.GONE
-       /* binding.rakhelyText.isFocusable = true
-        binding.rakhelyText.isFocusableInTouchMode = true
-        binding.rakhelyText.requestFocus()*/
         binding.cikkszamHeader.filters = arrayOf<InputFilter>(
             DecimalDigitsInputFilter(9, 2)
         )

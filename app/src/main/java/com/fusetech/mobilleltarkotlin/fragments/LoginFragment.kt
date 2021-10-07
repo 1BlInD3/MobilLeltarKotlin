@@ -3,7 +3,6 @@ package com.fusetech.mobilleltarkotlin.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.databinding.FragmentLoginBinding
-import com.fusetech.mobilleltarkotlin.showMe
 import com.fusetech.mobilleltarkotlin.ui.interfaces.LoginListener
 import com.fusetech.mobilleltarkotlin.ui.viewModels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,11 +42,6 @@ class LoginFragment : Fragment(), LoginListener {
     @SuppressLint("SetTextI18n")
     override fun onRequestFailed(code : String) {
         binding.idText.text = """"Helytelen bejelentkezés a $code-dal"""
-        try{
-            showMe(code,requireContext())
-        }catch (e: Exception){
-            Log.d("TAG", "onRequestFailed: $e")
-        }
     }
     @SuppressLint("SetTextI18n")
     override fun onRequestSuccess() {

@@ -109,6 +109,32 @@ constructor(
         }
     }
 
+    fun cikkClikk(view: View) {
+        if (cikkszam.isNotEmpty()) {
+            leltarListener?.setProgressOn()
+            CoroutineScope(IO).launch {
+                if (sql.isCikk(cikkszam)) {
+                    CoroutineScope(Main).launch {
+                        leltarListener?.setCikkText(cikkszam)
+                        leltarListener?.setProgressOff()
+                        leltarListener?.cikkAdatok(
+                            bundle.getString("MEG1"),
+                            bundle.getString("MEG2"),
+                            bundle.getString("UNIT")!!
+                        )
+                        leltarListener?.setNewBinOff()
+                    }
+                } else {
+                    CoroutineScope(Main).launch {
+                        leltarListener?.errorCode("Nem cikk")
+                        leltarListener?.cikkSelect()
+                        leltarListener?.setProgressOff()
+                    }
+                }
+            }
+        }
+    }
+
     fun cikkTextSet(code: String) {
         bundle.clear()
         leltarListener?.setProgressOn()
@@ -184,32 +210,6 @@ constructor(
                 CoroutineScope(Main).launch {
                     leltarListener?.errorCode("Cikket vigyél fel")
                     leltarListener?.setProgressOff()
-                }
-            }
-        }
-    }
-
-    fun cikkClikk(view: View) {
-        if (cikkszam.isNotEmpty()) {
-            leltarListener?.setProgressOn()
-            CoroutineScope(IO).launch {
-                if (sql.isCikk(cikkszam)) {
-                    CoroutineScope(Main).launch {
-                        leltarListener?.setCikkText(cikkszam)
-                        leltarListener?.setProgressOff()
-                        leltarListener?.cikkAdatok(
-                            bundle.getString("MEG1"),
-                            bundle.getString("MEG2"),
-                            bundle.getString("UNIT")!!
-                        )
-                        leltarListener?.setNewBinOff()
-                    }
-                } else {
-                    CoroutineScope(Main).launch {
-                        leltarListener?.errorCode("Nem cikk")
-                        leltarListener?.cikkSelect()
-                        leltarListener?.setProgressOff()
-                    }
                 }
             }
         }
