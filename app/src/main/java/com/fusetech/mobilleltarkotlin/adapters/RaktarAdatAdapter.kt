@@ -1,5 +1,6 @@
 package com.fusetech.mobilleltarkotlin.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.dataItems.RaktarAdat
 
-class RaktarAdatAdapter(val adatLista: ArrayList<RaktarAdat>, val listener: CurrentSelection): RecyclerView.Adapter<RaktarAdatAdapter.AdatViewHolder>() {
+class RaktarAdatAdapter(private val adatLista: ArrayList<RaktarAdat>, val listener: CurrentSelection): RecyclerView.Adapter<RaktarAdatAdapter.AdatViewHolder>() {
     inner class AdatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener {
         val cikks: TextView = itemView.findViewById(R.id.cikkszamHeader)
         val megnevezes1: TextView = itemView.findViewById(R.id.desc1Header)
@@ -32,6 +33,7 @@ class RaktarAdatAdapter(val adatLista: ArrayList<RaktarAdat>, val listener: Curr
         return AdatViewHolder(itemView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: AdatViewHolder, position: Int) {
         val currentItem = adatLista[position]
         holder.cikks.text = currentItem.cikkszam

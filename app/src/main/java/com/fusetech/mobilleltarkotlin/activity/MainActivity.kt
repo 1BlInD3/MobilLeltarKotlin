@@ -250,6 +250,14 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                 }
             }
         }
+        if(getFragment("f0")){
+            when(keyCode){
+                20 -> {
+                    val fragment = supportFragmentManager.findFragmentByTag("f0")
+                    (fragment as LeltarFragment).setFocus()
+                }
+            }
+        }
         return super.onKeyUp(keyCode, event)
     }
 

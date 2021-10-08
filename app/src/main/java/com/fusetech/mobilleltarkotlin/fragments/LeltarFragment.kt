@@ -264,4 +264,13 @@ class LeltarFragment : Fragment(), LeltarListener {
             throw Exception("Must implement")
         }
     }
+
+    fun setFocus(){
+        if(binding.rakhelyText.text.isEmpty() && !binding.rakhelyText.hasFocus()){
+            binding.rakhelyText.requestFocus()
+        }
+        /*if(binding.rakhelyButton.hasFocus()){
+            binding.cikkszamText.requestFocus()
+        }*/
+    }
 }
