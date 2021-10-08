@@ -126,8 +126,8 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     override fun mennyisegListener(quantity: BigDecimal) {
         if (binding.cikkszamHeader.isFocusable && binding.cikkszamHeader.isFocusableInTouchMode) {
-            //binding.cikkszamHeader.setText(quantity.toString().trim())
-                binding.cikkszamText.setText(String.format(quantity.toString()).trim())
+            binding.cikkszamHeader.setText(quantity.toString().trim())
+               // binding.cikkszamText.setText(String.format(quantity.toString()).trim())
             binding.cikkszamHeader.isFocusable = false
             binding.cikkszamHeader.isFocusableInTouchMode = false
             binding.megjegyzesText.isFocusable = true
@@ -236,7 +236,7 @@ class LeltarFragment : Fragment(), LeltarListener {
         cikkszam: String,
         meg1: String?,
         meg2: String?,
-        qty: BigDecimal,
+        qty: Double,
         megjegyzes: String?,
         bizszam: Int
     ) {

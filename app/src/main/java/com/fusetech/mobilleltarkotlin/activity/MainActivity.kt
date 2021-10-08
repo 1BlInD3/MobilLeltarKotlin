@@ -3,6 +3,7 @@ package com.fusetech.mobilleltarkotlin.activity
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fusetech.mobilleltarkotlin.R
@@ -11,7 +12,6 @@ import com.fusetech.mobilleltarkotlin.fragments.*
 import com.fusetech.mobilleltarkotlin.showMe
 import com.honeywell.aidc.*
 import dagger.hilt.android.AndroidEntryPoint
-import java.math.BigDecimal
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         cikkszam: String,
         meg1: String?,
         meg2: String?,
-        qty: BigDecimal,
+        qty: Double,
         megjegyzes: String?,
         bizszam: Int
     ) {
@@ -242,17 +242,14 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                 }
             }
         }
-        /*if (getFragment("f1")){  //22 21
+        if (getFragment("f1")){  //22 21
             when(keyCode){
-                61 -> {
-                    if(selectFocus == 1){
+                20 -> {
                         val fragment = supportFragmentManager.findFragmentByTag("f1")
                         (fragment as TetelFragment).focusRecycler()
-                        selectFocus = 0
-                    }
                 }
             }
-        }*/
+        }
         return super.onKeyUp(keyCode, event)
     }
 
@@ -281,11 +278,11 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        /*this.window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        this.window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 // or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)*/
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
     }
 }

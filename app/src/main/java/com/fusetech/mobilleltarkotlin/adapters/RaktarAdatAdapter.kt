@@ -36,7 +36,11 @@ class RaktarAdatAdapter(val adatLista: ArrayList<RaktarAdat>, val listener: Curr
         val currentItem = adatLista[position]
         holder.cikks.text = currentItem.cikkszam
         holder.megnevezes1.text = currentItem.megnevezes1
-        holder.megnevezes2.text = currentItem.mennyiseg.toString().trim()
+        if(currentItem.mennyiseg.toString().length>=9){
+            holder.megnevezes2.text = currentItem.mennyiseg.toBigDecimal().toString().trim()
+        }else{
+            holder.megnevezes2.text = currentItem.mennyiseg.toString().trim()
+        }
         holder.qty.text = currentItem.megnevezes2
         holder.megjegyzes.text = currentItem.megjegyzes
         holder.biz.text = currentItem.bizszam.toString().trim()

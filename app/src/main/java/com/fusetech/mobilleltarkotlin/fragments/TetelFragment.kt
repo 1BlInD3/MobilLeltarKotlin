@@ -23,7 +23,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 
 private const val TAG = "TetelFragment"
 
@@ -39,7 +38,7 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
             cikkszam: String,
             meg1: String?,
             meg2: String?,
-            qty: BigDecimal,
+            qty: Double,
             megjegyzes: String?,
             bizszam: Int
         )
@@ -132,7 +131,9 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
             throw Exception("Must implement")
         }
     }
-    /*fun focusRecycler(){
-        binding.itemRecycler.requestFocus()
-    }*/
+    fun focusRecycler(){
+        if(!binding.itemRecycler.hasFocus()){
+            binding.itemRecycler.requestFocus()
+        }
+    }
 }
