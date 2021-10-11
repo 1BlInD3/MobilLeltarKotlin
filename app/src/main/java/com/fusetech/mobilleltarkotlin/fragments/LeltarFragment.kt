@@ -32,6 +32,7 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     interface MainMenuInteract {
         fun tabSwitch()
+        fun timerCancel()
     }
 
     override fun onCreateView(
@@ -126,8 +127,8 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     override fun mennyisegListener(quantity: BigDecimal) {
         if (binding.cikkszamHeader.isFocusable && binding.cikkszamHeader.isFocusableInTouchMode) {
-            binding.cikkszamHeader.setText(quantity.toString().trim())
-               // binding.cikkszamText.setText(String.format(quantity.toString()).trim())
+            //binding.cikkszamHeader.setText(quantity.toString().trim())
+                binding.cikkszamHeader.setText(String.format(quantity.toString()).trim())
             binding.cikkszamHeader.isFocusable = false
             binding.cikkszamHeader.isFocusableInTouchMode = false
             binding.megjegyzesText.isFocusable = true
@@ -175,6 +176,10 @@ class LeltarFragment : Fragment(), LeltarListener {
 
     override fun setNewBinOff() {
         binding.rakhelyButton.visibility = View.GONE
+    }
+
+    override fun isClicked() {
+        mainMenuInteract.timerCancel()
     }
 
     class DecimalDigitsInputFilter(digitsBeforeZero: Int, digitsAfterZero: Int) :
@@ -266,7 +271,7 @@ class LeltarFragment : Fragment(), LeltarListener {
     }
 
     fun setFocus(){
-        if(binding.rakhelyText.text.isEmpty() && !binding.rakhelyText.hasFocus()){
+        if(binding.rakhelyText.text.isEmpty() && !binding.rakhelyText.hasFocus() && !binding.rakhelyButton.hasFocus()){
             binding.rakhelyText.requestFocus()
         }
         /*if(binding.rakhelyButton.hasFocus()){

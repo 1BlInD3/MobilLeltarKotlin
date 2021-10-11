@@ -19,4 +19,5 @@ interface LeltarListener {
     fun cikkSelect()
     fun setNewBinOn()
     fun setNewBinOff()
+    fun isClicked()
 }

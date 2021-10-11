@@ -1,6 +1,7 @@
 package com.fusetech.mobilleltarkotlin.activity
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -13,11 +14,12 @@ import com.fusetech.mobilleltarkotlin.showMe
 import com.honeywell.aidc.*
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "MainActivity"
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     LoginFragment.WithMainActivity, MenuFragment.WithMainActivity, TabbedFragment.With,
     CikkPolcFragment.WithMainActivity, TetelFragment.ChangeTab, LeltarFragment.MainMenuInteract {
-    //private val TAG = "MainActivity"
     private var manager: AidcManager? = null
     private var barcodeReader: BarcodeReader? = null
     private var loginFragment: LoginFragment? = null
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     private var cikkPolcFragment: CikkPolcFragment? = null
     private var barcodeData: String = ""
     private var tabbedFragment: TabbedFragment? = null
+    private lateinit var myTimer: CountDownTimer
 
     /*
     * Ahogy felvettem a ratárra egy cikket akkor beír a LeltarRakhEll-be 1es státuszt kap. A tételt felveszi a Leltaradat táblába 1es státusszal (RaktHely,DolgozoKezd,Statusz,KezdDatum)
@@ -43,6 +46,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         var dolgKod = ""
         var rakthely = ""
         var selectFocus = 1
+        var count = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +81,32 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
             }
             barcodeReader?.addBarcodeListener(this)
         }
+
+        myTimer = object: CountDownTimer(1*60*1000,1000){
+            override fun onTick(millisUntilFinished: Long) {
+                count++
+                Log.d(TAG, "onTick: $count")
+            }
+
+            override fun onFinish() {
+               when{
+                   getFragment("MENU") -> {
+                       getLoginFragment()
+                   }
+                   getFragment("f0") -> {
+                       getLoginFragment()
+                   }
+                   getFragment("f1") -> {
+                       getLoginFragment()
+                   }
+                   else -> {
+                       finishAndRemoveTask()
+                   }
+               }
+            }
+
+        }
+        myTimer.start()
 
     }
 
@@ -128,18 +158,25 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     }
 
     override fun loadLeltar() {
+        count = 0
+        myTimer.cancel()
         tabbedFragment = TabbedFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, tabbedFragment!!, "TABBED").addToBackStack(null).commit()
+        myTimer.start()
     }
 
     override fun loadLekerdezes() {
+        count = 0
+        myTimer.cancel()
         cikkPolcFragment = CikkPolcFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, cikkPolcFragment!!, "CIKKPOLC").addToBackStack(null).commit()
+        myTimer.start()
     }
 
     override fun loadKilepes() {
+        myTimer.cancel()
         finishAndRemoveTask()
     }
 
@@ -206,7 +243,8 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     }
 
     override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d("MainActivity", "onKeyLongPress: ")
+        myTimer.cancel()
+        count = 0
         if(getFragment("TABBED")){
             val fragment = supportFragmentManager.findFragmentByTag("TABBED")
             when(event?.keyCode){
@@ -218,11 +256,13 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                 }
             }
         }
+        myTimer.start()
         return super.onKeyLongPress(keyCode, event)
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d("MainActivity", "onKeyPress: ")
+        myTimer.cancel()
+        count = 0
         if (getFragment("MENU")) {
             when (keyCode){
                 8 -> {
@@ -242,7 +282,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                 }
             }
         }
-        if (getFragment("f1")){  //22 21
+        if (getFragment("f1")){
             when(keyCode){
                 20 -> {
                         val fragment = supportFragmentManager.findFragmentByTag("f1")
@@ -258,11 +298,13 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                 }
             }
         }
+        myTimer.start()
         return super.onKeyUp(keyCode, event)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d("MainActivity", "onKeyDown: ")
+        myTimer.cancel()
+        count = 0
         if(getFragment("TABBED")){
             when(keyCode){
                 22->{
@@ -276,12 +318,21 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                 }
             }
         }
+        myTimer.start()
         return super.onKeyDown(keyCode, event)
     }
 
     override fun tabSwitch() {
         val fragment = supportFragmentManager.findFragmentByTag("TABBED")
         (fragment as TabbedFragment).changeTetelTab()
+    }
+
+    override fun timerCancel() {
+        count = 0
+        myTimer.cancel()
+        Log.d(TAG, "timerCancel: Cancel")
+        myTimer.start()
+        Log.d(TAG, "timerCancel: Start")
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

@@ -41,6 +41,7 @@ constructor(
     }
 
     fun buttonClick(view: View) {
+        leltarListener?.isClicked()
         leltarListener?.setProgressOn()
         if (rakhely.isNotEmpty()) {
             leltarListener?.showData(updateListener, rakhely)
