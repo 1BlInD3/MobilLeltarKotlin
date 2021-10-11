@@ -5,6 +5,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fusetech.mobilleltarkotlin.R
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     * Az új rakhely lenoymása után megkérdezi lezárom-e, ha igen akkor a LeltarRakhEll 2es státusz (DolgozoBef,BefDatum, Statusz)
     * Ha a cikk üres akkor 0 státsuz a fejbe
     * */
+
     companion object {
         const val read_connect =
             "jdbc:jtds:sqlserver://10.0.0.11;databaseName=Fusetech;user=scala_read;password=scala_read;loginTimeout=10"
@@ -54,6 +56,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         setContentView(R.layout.activity_main)
         getLoginFragment()
         supportActionBar?.hide()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         AidcManager.create(this) { aidcManager ->
             manager = aidcManager
             try {
@@ -82,7 +85,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
             barcodeReader?.addBarcodeListener(this)
         }
 
-        myTimer = object: CountDownTimer(1*60*1000,1000){
+        myTimer = object: CountDownTimer(1200000,1000){
             override fun onTick(millisUntilFinished: Long) {
                 count++
                 Log.d(TAG, "onTick: $count")
@@ -107,7 +110,6 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
 
         }
         myTimer.start()
-
     }
 
     override fun onBarcodeEvent(p0: BarcodeReadEvent?) {
