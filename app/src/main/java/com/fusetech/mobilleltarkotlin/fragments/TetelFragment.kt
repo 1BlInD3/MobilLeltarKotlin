@@ -105,7 +105,6 @@ class TetelFragment : Fragment(), RaktarAdatAdapter.CurrentSelection {
                         binding.tetelProgress.visibility = View.GONE
                     }
                 }
-
             } else {
                 CoroutineScope(Main).launch {
                     binding.tetelProgress.visibility = View.VISIBLE

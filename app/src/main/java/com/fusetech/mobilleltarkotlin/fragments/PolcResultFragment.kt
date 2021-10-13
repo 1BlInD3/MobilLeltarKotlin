@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fusetech.mobilleltarkotlin.R
 import com.fusetech.mobilleltarkotlin.adapters.PolcItemAdapter
 import com.fusetech.mobilleltarkotlin.databinding.FragmentPolcResultBinding
+import com.fusetech.mobilleltarkotlin.showMe
 import com.fusetech.mobilleltarkotlin.ui.viewModels.PolcResultViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -40,18 +41,27 @@ class PolcResultFragment : Fragment(){
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.setHasFixedSize(true)
     }
+    
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
         binding.polcProgress.visibility = View.VISIBLE
         CoroutineScope(IO).launch {
-            viewModel.getListItmes()
-            CoroutineScope(Main).launch {
-                binding.polcProgress.visibility = View.GONE
-                initRecycler()
-                viewModel.getItems().observe(viewLifecycleOwner, {
-                    binding.recycler.adapter?.notifyDataSetChanged()
-                })
+            if(viewModel.hasData()){
+                viewModel.getListItmes()
+                CoroutineScope(Main).launch {
+                    binding.polcProgress.visibility = View.GONE
+                    initRecycler()
+                    viewModel.getItems().observe(viewLifecycleOwner, {
+                        binding.recycler.adapter?.notifyDataSetChanged()
+                    })
+                }
+            }else{
+                CoroutineScope(Main).launch {
+                    showMe("A polc üres",requireContext())
+                    binding.polcProgress.visibility = View.GONE
+                    binding.constraintLayout.visibility = View.GONE
+                }
             }
         }
     }

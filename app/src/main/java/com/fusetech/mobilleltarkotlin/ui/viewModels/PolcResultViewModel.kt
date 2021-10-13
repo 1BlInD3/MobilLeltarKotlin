@@ -22,4 +22,7 @@ class PolcResultViewModel
     fun getListItmes(){
         polcItems = sql.polcResultQuery(MainActivity.containerCode)
     }
+    fun hasData():Boolean{
+        return sql.isPolcEmty(MainActivity.containerCode)
+    }
 }

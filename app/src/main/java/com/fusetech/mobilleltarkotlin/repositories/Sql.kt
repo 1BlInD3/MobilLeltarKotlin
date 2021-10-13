@@ -310,11 +310,31 @@ class Sql {
     }
     fun hasPolcItemsInAdat(code: String): Boolean{
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
-        val connection: Connection = DriverManager.getConnection(read_connect)
+        try{
+            val connection: Connection = DriverManager.getConnection(read_connect)
             //val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
             val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Leltaradat] WHERE RaktHely = ? ORDER BY Bizszam")
             statement.setString(1,code)
             val resultSet = statement.executeQuery()
             return (resultSet.next() && resultSet.getString("Cikkszam").isNotEmpty())
+        }catch (e : Exception){
+            Log.d(TAG, "hasPolcItemsInAdat: $e")
+        }
+        return false
+    }
+    fun isPolcEmty(code: String): Boolean{
+        val connection: Connection
+        Class.forName("net.sourceforge.jtds.jdbc.Driver")
+        try {
+            connection = DriverManager.getConnection(read_connect)
+            val statement =
+                connection.prepareStatement("SELECT SC33001 as [StockItem],SUM(SC33005) as [BalanceQty],SUM(SC33008) as [ReceivedQty],MAX(VF_SY240300_QTCategory.TextDescription) as QcCategory,MAX([SC01002]) as Description1,MAX([SC01003]) as Description2,MAX([SC01093]) as IntRem,MAX([SC01094]) as IntRem2,rtrim(MAX([Description])) as Unit ,MAX(WarehouseID)as WarehouseID,MAX(InternalName)as Warehouse\tFROM [ScaCompDB].[dbo].[VF_SC360300_StockBinNo] left outer join [ScaCompDB].[dbo].SC330300 on BinNumber = SC33004 left outer join [ScaCompDB].[dbo].[SC010300] on SC33001 = SC01001 left join [ScaCompDB].[dbo].[VF_SCUN0300_UnitCode] on SC01133 = UnitCode LEFT OUTER JOIN [ScaCompDB].[dbo].VF_SY240300_QTCategory ON  SC33038 = VF_SY240300_QTCategory.Key1 left outer join [ScaCompDB].[dbo].VF_SC230300_WarehouseInfo as wi ON wi.Warehouse = WarehouseID\twhere SC33005 > 0 and BinNumber= ? group by SC33001, SC33010")
+            statement.setString(1, code)
+            val resultSet = statement.executeQuery()
+                return resultSet.next()
+        } catch (e: Exception) {
+            Log.d("sql", "polcResultQuery: $e")
+        }
+        return false
     }
 }
