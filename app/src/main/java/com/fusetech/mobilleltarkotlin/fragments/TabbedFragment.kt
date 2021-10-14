@@ -80,4 +80,5 @@ class TabbedFragment : Fragment() {
         binding.mViewPager.clearFocus()
         binding.tabbedLayout.clearFocus()
     }
+
 }

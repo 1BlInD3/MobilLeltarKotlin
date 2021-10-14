@@ -37,7 +37,8 @@ constructor(
     var bizszam = 0
 
     fun raktarClick(view: View) {
-        leltarListener?.deleteRakhely()
+        //leltarListener?.deleteRakhely()
+        cikkTextSet(rakhely)
     }
 
     fun buttonClick(view: View) {
@@ -141,7 +142,7 @@ constructor(
         leltarListener?.setProgressOn()
         CoroutineScope(IO).launch {
             if (sql.isPolc(code)){
-                if(rakhely.isEmpty()){
+                //if(rakhely.isEmpty()){
                     leltarListener?.deleteRakhely()
                     warehouseID = bundle.getString("RAKKOD")!!
                     if (sql.isPolcOpen(code)) {
@@ -181,12 +182,12 @@ constructor(
                     } else {
                         leltarListener?.errorCode("Nem sikerült a polcot leellenőrizni!")
                     }
-                }else{
+                /*}else{
                     CoroutineScope(Main).launch {
                         leltarListener?.setProgressOff()
                         leltarListener?.errorCode("Cikket vigyél fel!")
                     }
-                }
+                }*/
             } else if (sql.isCikk(code)) {
                 CoroutineScope(Main).launch {
                     leltarListener?.setCikkText(code)

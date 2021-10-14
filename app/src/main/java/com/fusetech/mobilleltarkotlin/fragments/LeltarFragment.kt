@@ -258,6 +258,7 @@ class LeltarFragment : Fragment(), LeltarListener {
         binding.cikkszamHeader.isFocusableInTouchMode = true
         binding.cikkszamHeader.requestFocus()
         binding.cikkszamHeader.selectAll()
+        binding.rakhelyButton.visibility = View.GONE
 
     }
 

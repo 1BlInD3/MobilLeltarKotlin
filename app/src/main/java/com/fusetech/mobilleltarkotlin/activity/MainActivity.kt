@@ -1,13 +1,11 @@
 package com.fusetech.mobilleltarkotlin.activity
 
-import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.KeyEvent
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -59,7 +57,8 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        getLoginFragment()
+        //getLoginFragment()
+        loadMenuFragment(true)
         supportActionBar?.hide()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         AidcManager.create(this) { aidcManager ->
@@ -342,13 +341,12 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         Log.d(TAG, "timerCancel: Start")
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
        // window.setDecorFitsSystemWindows(false) api > 30
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window,container).let { controller ->
+        WindowInsetsControllerCompat(window,mainConstraint).let { controller ->
             //controller.hide(WindowInsetsCompat.Type.systemBars())
             controller.hide(WindowInsetsCompat.Type.navigationBars())
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
