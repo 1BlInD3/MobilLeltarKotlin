@@ -181,7 +181,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -205,7 +204,6 @@
                 app:layout_constraintTop_toTopOf="@+id/recycler" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </HorizontalScrollView>
 </layout>

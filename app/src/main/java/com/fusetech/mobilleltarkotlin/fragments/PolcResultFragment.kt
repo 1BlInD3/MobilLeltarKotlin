@@ -41,7 +41,7 @@ class PolcResultFragment : Fragment(){
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.setHasFixedSize(true)
     }
-    
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
