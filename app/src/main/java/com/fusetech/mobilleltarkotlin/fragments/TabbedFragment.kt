@@ -59,7 +59,6 @@ class TabbedFragment : Fragment() {
 
         return binding.root
     }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         with = if(context is With){
@@ -74,11 +73,9 @@ class TabbedFragment : Fragment() {
     fun changeTetelTab(){
         binding.mViewPager.currentItem = 1
     }
-
     override fun onResume() {
         super.onResume()
         binding.mViewPager.clearFocus()
         binding.tabbedLayout.clearFocus()
     }
-
 }

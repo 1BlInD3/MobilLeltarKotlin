@@ -57,8 +57,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //getLoginFragment()
-        loadMenuFragment(true)
+        //loadMenuFragment(true)
         supportActionBar?.hide()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         AidcManager.create(this) { aidcManager ->
@@ -114,6 +113,11 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
 
         }
         myTimer.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getLoginFragment()
     }
 
     override fun onBarcodeEvent(p0: BarcodeReadEvent?) {

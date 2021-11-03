@@ -31,8 +31,8 @@ constructor(
     var unit = ""
     var internalName = ""
     var megjegyzes: String? = ""
-    var warehouseID = ""
-    var updateListener: UpdateInterface = this
+    private var warehouseID = ""
+    private var updateListener: UpdateInterface = this
     var isUpdate = false
     var bizszam = 0
 
@@ -58,8 +58,10 @@ constructor(
 
     fun insertLeltarData(view: View) {
         if (rakhely.isNotEmpty() && cikkszam.isNotEmpty() && mennyiseg?.isNotEmpty()!! && !isUpdate) {
-            leltarListener?.setProgressOn()
             CoroutineScope(IO).launch {
+                CoroutineScope(Main).launch {
+                    leltarListener?.setProgressOn()
+                }
                 if (sql.insertData(
                         cikkszam, mennyiseg?.toDouble()!!,
                         MainActivity.dolgKod, warehouseID, rakhely, megjegyzes?.trim()
@@ -68,8 +70,8 @@ constructor(
                     CoroutineScope(Main).launch {
                         //leltarListener?.errorCode("Sikeres feltöltés")
                         leltarListener?.afterUpload()
-                        leltarListener?.setProgressOff()
                         leltarListener?.setNewBinOn()
+                        leltarListener?.setProgressOff()
                     }
                 } else {
                     CoroutineScope(Main).launch {
@@ -140,10 +142,11 @@ constructor(
     fun cikkTextSet(code: String) {
         bundle.clear()
         leltarListener?.setProgressOn()
+        Log.d(TAG, "cikkTextSet: $rakhely")
         CoroutineScope(IO).launch {
             if (sql.isPolc(code)){
-                //if(rakhely.isEmpty()){
-                    leltarListener?.deleteRakhely()
+                if(rakhely.isEmpty()){
+                   // leltarListener?.deleteRakhely()
                     warehouseID = bundle.getString("RAKKOD")!!
                     if (sql.isPolcOpen(code)) {
                         if (sql.hasPolcItems(code)) {
@@ -182,22 +185,32 @@ constructor(
                     } else {
                         leltarListener?.errorCode("Nem sikerült a polcot leellenőrizni!")
                     }
-                /*}else{
+                }else{
                     CoroutineScope(Main).launch {
                         leltarListener?.setProgressOff()
                         leltarListener?.errorCode("Cikket vigyél fel!")
                     }
-                }*/
+                }
             } else if (sql.isCikk(code)) {
                 CoroutineScope(Main).launch {
-                    leltarListener?.setCikkText(code)
-                    leltarListener?.setProgressOff()
-                    leltarListener?.cikkAdatok(
-                        bundle.getString("MEG1"),
-                        bundle.getString("MEG2"),
-                        bundle.getString("UNIT")!!
-                    )
-                    leltarListener?.setNewBinOff()
+                    if(rakhely.isNotEmpty()){
+                        if(cikkszam.isEmpty()){
+                            leltarListener?.setCikkText(code)
+                            leltarListener?.setProgressOff()
+                            leltarListener?.cikkAdatok(
+                                bundle.getString("MEG1"),
+                                bundle.getString("MEG2"),
+                                bundle.getString("UNIT")!!
+                            )
+                            leltarListener?.setNewBinOff()
+                        }else{
+                            leltarListener?.errorCode("Már vettél fel cikket!")
+                            leltarListener?.setProgressOff()
+                        }
+                    }else{
+                        leltarListener?.errorCode("Polcot vigyél előbb fel!")
+                        leltarListener?.setProgressOff()
+                    }
                 }
             } else if(rakhely.isNotEmpty() && code == "EMPTY"){
                 if(sql.hasPolcItemsInAdat(rakhely)){

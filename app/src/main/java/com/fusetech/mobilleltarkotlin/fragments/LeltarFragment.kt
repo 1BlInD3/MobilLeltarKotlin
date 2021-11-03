@@ -245,6 +245,7 @@ class LeltarFragment : Fragment(), LeltarListener {
         megjegyzes: String?,
         bizszam: Int
     ) {
+        binding.rakhelyButton.visibility = View.GONE
         binding.cikkszamText.setText(cikkszam)
         binding.cikkszamHeader.setText(String.format(qty.toString()).trim())
         binding.megjegyzesText.setText(megjegyzes)
@@ -258,8 +259,6 @@ class LeltarFragment : Fragment(), LeltarListener {
         binding.cikkszamHeader.isFocusableInTouchMode = true
         binding.cikkszamHeader.requestFocus()
         binding.cikkszamHeader.selectAll()
-        binding.rakhelyButton.visibility = View.GONE
-
     }
 
     override fun onAttach(context: Context) {
