@@ -306,6 +306,10 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                     val fragment = supportFragmentManager.findFragmentByTag("f0")
                     (fragment as LeltarFragment).setFocus()
                 }
+                else -> {
+                    val fragment = supportFragmentManager.findFragmentByTag("f0")
+                    (fragment as LeltarFragment).deleteRakhely()
+                }
             }
         }
         myTimer.start()

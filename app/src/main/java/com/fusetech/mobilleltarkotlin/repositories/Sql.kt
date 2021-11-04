@@ -250,7 +250,7 @@ class Sql {
         Class.forName("net.sourceforge.jtds.jdbc.Driver")
        // try{
         val connection: Connection = DriverManager.getConnection(read_connect)
-            val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam")
+            val statement = connection.prepareStatement("SELECT * FROM [leltar].[dbo].[Kuty_Leltaradat_polc] WHERE RaktHely = ? ORDER BY Bizszam DESC")
             statement.setString(1,code)
             val resultSet = statement.executeQuery()
             if(!resultSet.next()){

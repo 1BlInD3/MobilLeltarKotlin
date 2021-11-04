@@ -14,7 +14,7 @@ fun showMe(message: String, context: Context) {
     dialog.show().getButton(DialogInterface.BUTTON_POSITIVE).requestFocus()
 }
 fun closeBin(listener: UpdateInterface, code: String,context: Context){
-    val dialog =  AlertDialog.Builder(context)
+    val dialog =  AlertDialog.Builder(context,R.style.AlertDialogTheme)
     dialog.setTitle("Leltározás vége?")
     dialog.setMessage("Lezárod a $code polcot?")
     dialog.setPositiveButton("Igen"){_,_->
@@ -28,4 +28,5 @@ fun closeBin(listener: UpdateInterface, code: String,context: Context){
     }
     dialog.create()
     dialog.show().getButton(DialogInterface.BUTTON_POSITIVE).requestFocus()
+    //dialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(Color.GREEN)
 }

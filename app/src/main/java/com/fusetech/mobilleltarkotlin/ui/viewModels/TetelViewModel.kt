@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fusetech.mobilleltarkotlin.activity.MainActivity
+import com.fusetech.mobilleltarkotlin.activity.MainActivity.Companion.rakhelyInfo
 import com.fusetech.mobilleltarkotlin.dataItems.RaktarAdat
 import com.fusetech.mobilleltarkotlin.repositories.Sql
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,10 @@ constructor(val sql: Sql): ViewModel() {
     private lateinit var adatok: MutableLiveData<ArrayList<RaktarAdat>>
     fun getItems(): LiveData<ArrayList<RaktarAdat>>{
         return adatok
+    }
+    fun removeItems(){
+        rakhelyInfo.clear()
+        adatok.postValue(rakhelyInfo)
     }
     fun onListLoad(){
            adatok =  sql.loadBinItems(MainActivity.rakthely)

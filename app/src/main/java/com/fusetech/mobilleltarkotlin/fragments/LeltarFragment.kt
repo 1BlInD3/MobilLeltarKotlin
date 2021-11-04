@@ -163,7 +163,9 @@ class LeltarFragment : Fragment(), LeltarListener {
     }
 
     override fun deleteRakhely() {
-        binding.rakhelyText.setText("")
+        if(binding.rakhelyText.hasFocus()){
+            binding.rakhelyText.setText("")
+        }
     }
 
     override fun cikkSelect() {

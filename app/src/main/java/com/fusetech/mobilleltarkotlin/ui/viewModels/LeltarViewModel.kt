@@ -43,11 +43,9 @@ constructor(
 
     fun buttonClick(view: View) {
         leltarListener?.isClicked()
-        leltarListener?.setProgressOn()
         if (rakhely.isNotEmpty()) {
             leltarListener?.showData(updateListener, rakhely)
         }
-        leltarListener?.setProgressOff()
     }
 
     fun mennyisegClick(view: View) {
@@ -230,7 +228,7 @@ constructor(
                 }
             }else {
                 CoroutineScope(Main).launch {
-                    leltarListener?.errorCode("Hülyeség")
+                    leltarListener?.errorCode("Hiba történt ezzel a vonalkóddal $code")
                     leltarListener?.setProgressOff()
                 }
             }
@@ -238,11 +236,12 @@ constructor(
     }
 
     override fun update(code: String) {
+        leltarListener?.setProgressOn()
         CoroutineScope(IO).launch {
             sql.closePolcLeltar(code,2)
             CoroutineScope(Main).launch {
                 leltarListener?.clearAll()
-                leltarListener?.errorCode("A $code polcot lezártam")
+               // leltarListener?.errorCode("A $code polcot lezártam")
                 leltarListener?.setProgressOff()
             }
         }
