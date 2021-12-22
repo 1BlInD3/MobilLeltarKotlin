@@ -88,27 +88,27 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
             barcodeReader?.addBarcodeListener(this)
         }
 
-        myTimer = object: CountDownTimer(1200000,1000){
+        myTimer = object : CountDownTimer(1200000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 count++
                 Log.d(TAG, "onTick: $count")
             }
 
             override fun onFinish() {
-               when{
-                   getFragment("MENU") -> {
-                       getLoginFragment()
-                   }
-                   getFragment("f0") -> {
-                       getLoginFragment()
-                   }
-                   getFragment("f1") -> {
-                       getLoginFragment()
-                   }
-                   else -> {
-                       finishAndRemoveTask()
-                   }
-               }
+                when {
+                    getFragment("MENU") -> {
+                        getLoginFragment()
+                    }
+                    getFragment("f0") -> {
+                        getLoginFragment()
+                    }
+                    getFragment("f1") -> {
+                        getLoginFragment()
+                    }
+                    else -> {
+                        finishAndRemoveTask()
+                    }
+                }
             }
 
         }
@@ -255,13 +255,13 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
         myTimer.cancel()
         count = 0
-        if(getFragment("TABBED")){
+        if (getFragment("TABBED")) {
             val fragment = supportFragmentManager.findFragmentByTag("TABBED")
-            when(event?.keyCode){
-                22->{
+            when (event?.keyCode) {
+                22 -> {
                     (fragment as TabbedFragment).changeTetelTab()
                 }
-                21->{
+                21 -> {
                     (fragment as TabbedFragment).changeTab()
                 }
             }
@@ -274,7 +274,7 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
         myTimer.cancel()
         count = 0
         if (getFragment("MENU")) {
-            when (keyCode){
+            when (keyCode) {
                 8 -> {
                     val fragment = supportFragmentManager.findFragmentByTag("MENU")
                     (fragment as MenuFragment).leltarFocus()
@@ -285,23 +285,23 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
                     (fragment as MenuFragment).lekerdezesFocus()
                     loadLekerdezes()
                 }
-                10 ->{
+                10 -> {
                     val fragment = supportFragmentManager.findFragmentByTag("MENU")
                     (fragment as MenuFragment).kilepesFocus()
                     finishAndRemoveTask()
                 }
             }
         }
-        if (getFragment("f1")){
-            when(keyCode){
+        if (getFragment("f1")) {
+            when (keyCode) {
                 20 -> {
-                        val fragment = supportFragmentManager.findFragmentByTag("f1")
-                        (fragment as TetelFragment).focusRecycler()
+                    val fragment = supportFragmentManager.findFragmentByTag("f1")
+                    (fragment as TetelFragment).focusRecycler()
                 }
             }
         }
-        if(getFragment("f0")){
-            when(keyCode){
+        if (getFragment("f0")) {
+            when (keyCode) {
                 20 -> {
                     val fragment = supportFragmentManager.findFragmentByTag("f0")
                     (fragment as LeltarFragment).setFocus()
@@ -319,14 +319,14 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         myTimer.cancel()
         count = 0
-        if(getFragment("TABBED")){
-            when(keyCode){
-                22->{
+        if (getFragment("TABBED")) {
+            when (keyCode) {
+                22 -> {
                     event?.startTracking()
                     return true
                     //(fragment as TabbedFragment).changeTetelTab()
                 }
-                21->{
+                21 -> {
                     event?.startTracking()
                     return true
                 }
@@ -351,13 +351,14 @@ class MainActivity : AppCompatActivity(), BarcodeReader.BarcodeListener,
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-       // window.setDecorFitsSystemWindows(false) api > 30
+        // window.setDecorFitsSystemWindows(false) api > 30
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window,mainConstraint).let { controller ->
+        WindowInsetsControllerCompat(window, mainConstraint).let { controller ->
             //controller.hide(WindowInsetsCompat.Type.systemBars())
             controller.hide(WindowInsetsCompat.Type.navigationBars())
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
 }
